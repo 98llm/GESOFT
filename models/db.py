@@ -7,15 +7,18 @@ sys.path.append('d:/Users/Leandro/Documents/facul/GESOFT/GESOFT/')
 from app import database
 
 
-class Users(UserMixin, db.Model):
-    __tablename__ = 'Users'
-    id = database.Column(database.Integer, primary_key=True)
-    username = database.Column(database.String, unique = True, nullable = False)
-    password = database.Column(database.String, nullable = False)
+class User(UserMixin, db.Model):
+    __tablename__ = 'User'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String, unique = True, nullable = False)
+    password = db.Column(db.String, nullable = False)
+    name = db.Column(db.String, nullable = False)
+    function = db.Column(db.String, nullable = False)
 
     def __init__(self, username, password):
         self.username = username
         self.password = password
+
 
 
 connection = psycopg2.connect(
