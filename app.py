@@ -30,12 +30,12 @@ cursor = connection.cursor()
 
 
 class User(db.Model, UserMixin):
-    __tablename__ = 'Users'
     id = db.Column(db.Integer, autoincrement = True ,primary_key=True)
     username = db.Column(db.String, unique = True, nullable = False)
     password = db.Column(db.String, nullable = False)
     name = db.Column(db.String, nullable = False)
     function = db.Column(db.String, nullable = False)
+    notes = db.relationship('Anotacao', backref='owner')
 
     def __repr__(self):
         return f'<user: {self.username}>'
@@ -50,11 +50,11 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password, pwd)
 
 class Anotacao(db.Model, UserMixin):
-    __tablename__ = 'anotacoes'
-    id = db.Column(db.Integer, autoincrement = True ,primary_key=True)
+    id = db.Column(db.Integer, autoincrement = True , primary_key=True)
     notes = db.Column(db.String, unique = True, nullable = False)
-    name = db.Column(db.Integer, nullable = False, db.ForeignKey('User.id'))
-    
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+"""
 class Endereco(db.Model, UserMixin):
     street = db.Column(db.String, nullable = False)
     cep = db.Column(db.String, nullable = False)
@@ -64,7 +64,7 @@ class Endereco(db.Model, UserMixin):
 class Entrega(db.Model, UserMixin):
     date = db.Column(db.String, nullable = False)
     status = db.Column(db.String, nullable = False)
-
+"""
 
 @login_manager.user_loader
 def load_user(user_id):
