@@ -1,41 +1,56 @@
-from flask import Flask, session, render_template, request, url_for, flash, redirect
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, login_user, logout_user, LoginManager, login_required, current_user
-from werkzeug.security import generate_password_hash, check_password_hash
-from markupsafe import escape
-import psycopg2
+from flask import ( # noqa
+    Flask,
+    session,
+    render_template,
+    request, url_for,
+    flash,
+    redirect)
 
-#Configure app
+from flask_sqlalchemy import SQLAlchemy
+
+from flask_login import (
+    UserMixin,
+    login_user,
+    logout_user,
+    LoginManager,
+    login_required,
+    current_user)
+
+from werkzeug.security import generate_password_hash, check_password_hash
+from markupsafe import escape # noqa
+import psycopg2
+from datetime import datetime
+
+# Configure app
 app = Flask(__name__)
 app.config["SECRET_KEY"] = b"\x05\x19s\x8a\xd06\x07\xf8ofL0\xc5-\xc0"
 
-#configure database
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:123@localhost:5432/teste"
+# configure database
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:123@localhost:5432/teste" # noqa
 
 db = SQLAlchemy(app)
-
 
 login_manager = LoginManager(app)
 
 login_manager.login_view = "login"
 
 connection = psycopg2.connect(
-    host ="localhost",
-    user = "postgres",
-    password = "123",
-    dbname = "teste"
+    host="localhost",
+    user="postgres",
+    password="123",
+    dbname="teste"
 )
 
 cursor = connection.cursor()
 
 
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, autoincrement = True ,primary_key=True)
-    username = db.Column(db.String, unique = True, nullable = False)
-    password = db.Column(db.String, nullable = False)
-    name = db.Column(db.String, nullable = False)
-    function = db.Column(db.String, nullable = False)
-    notes = db.relationship('Anotacao', backref='owner')
+class Usuario(db.Model, UserMixin):
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    username = db.Column(db.String, unique=True, nullable=False)
+    password = db.Column(db.String, nullable=False)
+    nome = db.Column(db.String(50), nullable=False)
+    funcao = db.Column(db.String(50), nullable=False)
+    anotacao = db.relationship('Anotacao', backref='user', lazy=True)
 
     def __repr__(self):
         return f'<user: {self.username}>'
@@ -49,44 +64,85 @@ class User(db.Model, UserMixin):
     def verify_password(self, pwd):
         return check_password_hash(self.password, pwd)
 
+
 class Anotacao(db.Model, UserMixin):
-    id = db.Column(db.Integer, autoincrement = True , primary_key=True)
-    notes = db.Column(db.String, unique = True, nullable = False)
-    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    anotacao = db.Column(db.String, unique=True, nullable=False)
+    usuario = db.Column(db.Integer, db.ForeignKey('usuario.id'))
 
-"""
-class Endereco(db.Model, UserMixin):
-    street = db.Column(db.String, nullable = False)
-    cep = db.Column(db.String, nullable = False)
-    number = db.Column(db.String, nullable = False)
-    UF = db.Column(db.String, nullable = False)
 
-class Entrega(db.Model, UserMixin):
-    date = db.Column(db.String, nullable = False)
-    status = db.Column(db.String, nullable = False)
-"""
+class Cliente(db.Model, UserMixin):
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    nome = db.Column(db.String, nullable=False)
+    endereco = db.Column(db.String, nullable=False)
+    cep = db.Column(db.String, nullable=False)
+    telefone = db.Column(db.String, nullable=False)
+    cidade = db.Column(db.String, nullable=False)
+    uf = db.Column(db.String, nullable=False)
+    # op = db.relationship('OP', backref='clientes')
+
+
+class OP(db.Model, UserMixin):
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id'))
+    id_status = db.Column(db.Integer, db.ForeignKey('status.id'))
+    codigo = db.Column(db.String, db.ForeignKey('placa.id'))
+    data_op = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    romaneio = db.Column(db.String, nullable=False)
+    qtd_pcs = db.Column(db.Integer, nullable=False)
+    preco_op = db.Column(db.Float, nullable=False)
+
+
+class Status(db.Model, UserMixin):
+    id = db.Column(db.Integer, nullable=False, primary_key=True)
+    status = db.Column(db.String, nullable=False)
+    # op = db.relationship('OP', backref='sts')
+
+
+class Placa(db.Model, UserMixin):
+    codigo = db.Column(db.Integer, nullable=False, primary_key=True)
+    descricao = db.Column(db.String, nullable=False)
+    categoria = db.Column(db.String, nullable=False)
+    modelo = db.Column(db.String, nullable=True)
+    anotacao = db.Column(db.String, nullable=True)
+    # op = db.relationship('OP', backref='placas')
+
+
+class Componente(db.Model, UserMixin):
+    id = db.Column(db.Integer, nullable=False, primary_key=True)
+    nome = db.Column(db.String, nullable=True)
+    descricao = db.Column(db.String(50), nullable=True)
+    referencia = db.Column(db.String(50), nullable=True)
+
+
+class Produto(db.Model, UserMixin):
+    codigo_placa = db.Column(db.Integer, db.ForeignKey('placa.codigo'))
+    id_componente = db.Column(db.Integer, db.ForeignKey('componente.id'))
+
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(user_id)
+    return Usuario.query.get(user_id)
 
 
 @app.route('/')
 @login_required
 def index():
-    return render_template('home.html', user= current_user)
+    return render_template('home.html', user=current_user)
 
-@app.route('/login', methods = ['POST','GET'])
+
+@app.route('/login', methods=['POST', 'GET'])
 def login():
     username = request.form.get('username')
     password = request.form.get('password')
-    user = User.query.filter_by(username = username).first()
+    user = Usuario.query.filter_by(username=username).first()
     if user:
         if user and check_password_hash(user.password, password):
             login_user(user)
             session['username'] = user.username
             return redirect(url_for('index'))
     return render_template('login.html')
+
 
 @app.route('/logout')
 @login_required
