@@ -71,7 +71,7 @@ class Anotacao(db.Model, UserMixin):
     usuario = db.Column(db.Integer, db.ForeignKey('usuario.id'))
 
 
-class Cliente(db.Model, UserMixin):
+class Cliente(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     nome = db.Column(db.String, nullable=False)
     endereco = db.Column(db.String, nullable=False)
@@ -82,7 +82,7 @@ class Cliente(db.Model, UserMixin):
     # op = db.relationship('OP', backref='clientes')
 
 
-class OP(db.Model, UserMixin):
+class OP(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id'))
     id_status = db.Column(db.Integer, db.ForeignKey('status.id'))
@@ -93,29 +93,29 @@ class OP(db.Model, UserMixin):
     preco_op = db.Column(db.Float, nullable=False)
 
 
-class Status(db.Model, UserMixin):
+class Status(db.Model):
     id = db.Column(db.Integer, nullable=False, primary_key=True)
     status = db.Column(db.String, nullable=False)
     # op = db.relationship('OP', backref='sts')
 
 
-class Placa(db.Model, UserMixin):
+class Placa(db.Model):
     codigo = db.Column(db.Integer, nullable=False, primary_key=True)
+    id_componente = db.Column(db.Integer, db.ForeignKey('categoria.id'))
     descricao = db.Column(db.String, nullable=False)
-    categoria = db.Column(db.String, nullable=False)
     modelo = db.Column(db.String, nullable=True)
     anotacao = db.Column(db.String, nullable=True)
     # op = db.relationship('OP', backref='placas')
 
 
-class Componente(db.Model, UserMixin):
+class Componente(db.Model):
     id = db.Column(db.Integer, nullable=False, primary_key=True)
     nome = db.Column(db.String, nullable=True)
     descricao = db.Column(db.String(50), nullable=True)
     referencia = db.Column(db.String(50), nullable=True)
 
 
-class Produto(db.Model, UserMixin):
+class Produto(db.Model):
     codigo_placa = db.Column(db.Integer, db.ForeignKey('placa.codigo'))
     id_componente = db.Column(db.Integer, db.ForeignKey('componente.id'))
 
