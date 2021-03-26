@@ -49,8 +49,7 @@ class Usuario(db.Model, UserMixin):
     username = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
     nome = db.Column(db.String(50), nullable=False)
-    funcao = db.Column(db.String(50), nullable=False)
-    anotacao = db.relationship('Anotacao', backref='user', lazy=True)
+    cargo = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
         return f'<user: {self.username}>'
@@ -67,57 +66,66 @@ class Usuario(db.Model, UserMixin):
 
 class Anotacao(db.Model, UserMixin):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    anotacao = db.Column(db.String, unique=True, nullable=False)
-    usuario = db.Column(db.Integer, db.ForeignKey('usuario.id'))
-
-
-class Cliente(db.Model):
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    nome = db.Column(db.String, nullable=False)
-    endereco = db.Column(db.String, nullable=False)
-    cep = db.Column(db.String, nullable=False)
-    telefone = db.Column(db.String, nullable=False)
-    cidade = db.Column(db.String, nullable=False)
-    uf = db.Column(db.String, nullable=False)
-    # op = db.relationship('OP', backref='clientes')
+    assunto = db.Column(db.String(50), nullable=False)
+    descricao = db.Column(db.String(150), nullable=False)
+    dt_anotacao = db.Column(db.String(50), nullable=False)
+    id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id'))
 
 
 class OP(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    codigo = db.Column(db.String(50), nullable=False)
+    qtd_placas = db.Column(db.Integer, nullable=False)
+    num_romaneio = db.Column(db.String(50), nullable=False)
+    status = db.Column(db.String(50), nullable=False)
+    dta_emissao = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id'))
     id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id'))
-    id_status = db.Column(db.Integer, db.ForeignKey('status.id'))
-    codigo = db.Column(db.String, db.ForeignKey('placa.id'))
-    data_op = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    romaneio = db.Column(db.String, nullable=False)
-    qtd_pcs = db.Column(db.Integer, nullable=False)
-    preco_op = db.Column(db.Float, nullable=False)
-
-
-class Status(db.Model):
-    id = db.Column(db.Integer, nullable=False, primary_key=True)
-    status = db.Column(db.String, nullable=False)
-    # op = db.relationship('OP', backref='sts')
+    id_placa = db.Column(db.Integer, db.ForeignKey('placa.id'))
 
 
 class Placa(db.Model):
-    codigo = db.Column(db.Integer, nullable=False, primary_key=True)
-    id_componente = db.Column(db.Integer, db.ForeignKey('categoria.id'))
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    codigo = db.Column(db.String, nullable=False)
     descricao = db.Column(db.String, nullable=False)
     modelo = db.Column(db.String, nullable=True)
-    anotacao = db.Column(db.String, nullable=True)
+    qtd_componente = db.Column(db.Integer, nullable=True)
+    id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id'))
     # op = db.relationship('OP', backref='placas')
 
 
 class Componente(db.Model):
-    id = db.Column(db.Integer, nullable=False, primary_key=True)
-    nome = db.Column(db.String, nullable=True)
-    descricao = db.Column(db.String(50), nullable=True)
-    referencia = db.Column(db.String(50), nullable=True)
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    codigo = db.Column(db.String, nullable=False)
+    tipo = db.Column(db.String, nullable=False)
+    nome = db.Column(db.String, nullable=False)
+    referencia = db.Column(db.String, nullable=False)
 
 
-class Produto(db.Model):
-    codigo_placa = db.Column(db.Integer, db.ForeignKey('placa.codigo'))
+class Placa_componente(db.Model):
+    id_placa = db.Column(db.Integer, db.ForeignKey('placa.id'))
     id_componente = db.Column(db.Integer, db.ForeignKey('componente.id'))
+
+
+class Cliente(db.Model):
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    cnpj = db.Column(db.String, nullable=False)
+    nome = db.Column(db.String, nullable=False)
+    # op = db.relationship('OP', backref='clientes')
+
+
+class Telefone(db.Model):
+    id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id'))
+    telefone = db.Column(db.String, nullable=False)
+
+
+class Endereco_cliente(db.Model):
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    logradouro = db.Column(db.String, nullable=False)
+    numero = db.Column(db.String, nullable=False)
+    bairro = db.Column(db.String, nullable=False)
+    cep = db.Column(db.String, nullable=False)
+    uf = db.Column(db.String, nullable=False)
 
 
 @login_manager.user_loader
