@@ -96,15 +96,15 @@ class Placa(db.Model):
 
 class Componente(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    codigo = db.Column(db.String, nullable=False)
+    codigo = db.Column(db.String, nullable=False, unique=True)
     tipo = db.Column(db.String, nullable=False)
     nome = db.Column(db.String, nullable=False)
     referencia = db.Column(db.String, nullable=False)
 
 
 class Placa_componente(db.Model):
-    id_placa = db.Column(db.Integer, db.ForeignKey('placa.id'), primary_key=True)
-    id_componente = db.Column(db.Integer, db.ForeignKey('componente.id'), primary_key=True)
+    id_placa = db.Column(db.Integer, db.ForeignKey('placa.id'), primary_key=True) # noqa
+    id_componente = db.Column(db.Integer, db.ForeignKey('componente.id'), primary_key=True) # noqa
 
 
 class Cliente(db.Model):
