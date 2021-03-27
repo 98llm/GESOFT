@@ -8,7 +8,7 @@ from flask import ( # noqa
 
 from flask_sqlalchemy import SQLAlchemy
 
-from flask_login import (
+from flask_login import ( # noqa
     UserMixin,
     login_user,
     logout_user,
