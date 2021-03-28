@@ -11,7 +11,7 @@ from flask_login import (
     current_user)
 
 from werkzeug.security import generate_password_hash, check_password_hash
-from markupsafe import escape
+from markupsafe import escape   # noqa
 import psycopg2
 from datetime import datetime
 
@@ -119,6 +119,9 @@ class Cliente(db.Model):
                                 backref='dono',
                                 lazy=True)
 
+    def __repr__(self):
+        return f'<cliente: {self.nome}>'
+
 
 class Telefone(db.Model):
     id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id'), primary_key=True) # noqa
@@ -156,6 +159,33 @@ def login():
             session['username'] = user.username
             return redirect(url_for('index'))
     return render_template('login.html')
+
+
+@app.route('/op', methods=['POST', 'GET'])
+@login_required
+def op():
+    return render_template('login.html')
+
+
+@app.route('/op/adicionar', methods=['POST', 'GET'])
+@login_required
+def add_op():
+    if request.method == 'POST':
+        clientes = Cliente.query.all()
+        new_op = OP(
+                qtd_placas=request.form['qtd_placas'],
+                num_romaneio=request.form['num_romaneio'],
+                status=request.form['status'],
+                id_usuario=current_user.id,  # fk
+                id_cliente=request.form['id_cliente'],
+                id_placa=request.form['qtd_placas']
+        )
+        db.session.add(new_op)
+        db.session.commit()
+        return redirect(url_for('op'))
+    return render_template('adicionar_op.html',
+                           user=current_user,
+                           clientes=clientes)
 
 
 @app.route('/logout')

@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+
+{%block head%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/op.css')}}">
+{%endblock%}
+
+
+{% block content %}
+
+<div class="container">
+    <form>
+        <div>
+            
+        </div>
+        <div class="row justify-content-xl-center">
+            <div class="">
+                <div class="form-group col-xl-3">
+                    <label for="num_romaneio">numero do romaneio</label>
+                    <input type="text" class="form-control" id="input_num_romaneio" placeholder="N° do romaneio">
+                </div>
+            </div>
+            <div class=""></div>
+                <div class="form-group col-xl-2">
+                    <label for="input_cliente">Cliente</label>
+                    <select id="inputState" class="form-control">
+                        <option selected>Choose...</option>
+                        {% for cliente in clientes%}
+                        <option>{{cliente.nome}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
