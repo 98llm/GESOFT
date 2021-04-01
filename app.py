@@ -1,4 +1,4 @@
-from flask import Flask, session, render_template, request, url_for, redirect
+from flask import Flask, session, render_template, request, url_for, redirect, jsonify
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -88,7 +88,9 @@ class Placa(db.Model):
     modelo = db.Column(db.String, nullable=True)
     qtd_componente = db.Column(db.Integer, nullable=True)
     id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id'))
-    ops = db.relationship('OP', backref='placa_op', lazy=True)
+    ops = db.relationship('OP',
+                          backref='placa_op',
+                          lazy=True)
     componentes = db.relationship('Placa_componente',
                                   backref='relacao_componentes',
                                   lazy=True)
@@ -111,13 +113,17 @@ class Cliente(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     cnpj = db.Column(db.String, nullable=False)
     nome = db.Column(db.String, nullable=False)
-    ops = db.relationship('OP', backref='cliente')
+    ops = db.relationship('OP',
+                          backref='cliente')
     endereco = db.relationship('OP',
                                backref='endereco',
                                uselist=False)
     telefones = db.relationship('OP',
                                 backref='dono',
                                 lazy=True)
+    placas = db.relationship('Placa',
+                             backref='placas',
+                             lazy=True)
 
     def __repr__(self):
         return f'<cliente: {self.nome}>'
@@ -170,8 +176,10 @@ def op():
 @app.route('/op/adicionar', methods=['POST', 'GET'])
 @login_required
 def add_op():
+    clientes = Cliente.query.all()
+    # retorna uma lista com todas as placas de um determinado cliente
+    # [(cliente.placas) for cliente in Cliente.query.filter_by(id = 1)]
     if request.method == 'POST':
-        clientes = Cliente.query.all()
         new_op = OP(
                 qtd_placas=request.form['qtd_placas'],
                 num_romaneio=request.form['num_romaneio'],
@@ -186,6 +194,24 @@ def add_op():
     return render_template('adicionar_op.html',
                            user=current_user,
                            clientes=clientes)
+
+
+@app.route('/api/placas/<int:id_cliente>')
+@login_required
+def api_placas(id_cliente):
+    cliente = Cliente.query.get(id_cliente)
+    clientes_placas = cliente.placas
+    placasArray = []
+
+    for placa in clientes_placas:
+        placas_cliente = {}
+        placas_cliente['id'] = placa.id
+        placas_cliente['codigo'] = placa.codigo
+        placas_cliente['descricao'] = placa.descricao
+        placas_cliente['modelo'] = placa.modelo
+        placasArray.append(placas_cliente)
+
+    return jsonify({f'placas_cliente_{id_cliente}': placasArray})
 
 
 @app.route('/logout')

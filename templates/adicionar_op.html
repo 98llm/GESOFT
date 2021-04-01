@@ -9,29 +9,32 @@
 {% block content %}
 
 <div class="container">
-    <form>
-        <div>
+    <form method="POST">
+        <div class="form-row justify-content-center">
+            <div class="form-group col-xl-3">
+                <label for="num_romaneio">Numero do romaneio</label>
+                <input type="text" class="form-control" id="input_num_romaneio" placeholder="N° do romaneio">
+            </div>
+
+            <div class="form-group col-xl-2">
+                <label for="input_cliente">Cliente</label>
+                <select id="inputState" class="form-control">
+                    <option selected>Selecionar</option>
+                    {% for cliente in clientes%}
+                    <option>{{cliente.id}}- {{cliente.nome}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="form-row justify-content-center">
             
-        </div>
-        <div class="row justify-content-xl-center">
-            <div class="">
-                <div class="form-group col-xl-3">
-                    <label for="num_romaneio">numero do romaneio</label>
-                    <input type="text" class="form-control" id="input_num_romaneio" placeholder="N° do romaneio">
-                </div>
-            </div>
-            <div class=""></div>
-                <div class="form-group col-xl-2">
-                    <label for="input_cliente">Cliente</label>
-                    <select id="inputState" class="form-control">
-                        <option selected>Choose...</option>
-                        {% for cliente in clientes%}
-                        <option>{{cliente.nome}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
+            <div class="form-group">
+                <label for="num_romaneio">Quantidade</label>
+                <input type="number" class="form-control" id="input_num_romaneio" placeholder="N° do romaneio">
             </div>
         </div>
+
+
     </form>
 </div>
 
