@@ -196,22 +196,23 @@ def add_op():
                            clientes=clientes)
 
 
-@app.route('/api/placas/<int:id_cliente>')
+@app.route('/api/cliente/<int:id_cliente>')
 @login_required
 def api_placas(id_cliente):
     cliente = Cliente.query.get(id_cliente)
-    clientes_placas = cliente.placas
-    placasArray = []
+    clienteDict = {}
+    clienteDict['id'] = cliente.id
+    clienteDict['nome'] = cliente.nome
+    clienteDict['placas'] = []
 
-    for placa in clientes_placas:
+    for placa in cliente.placas:
         placas_cliente = {}
         placas_cliente['id'] = placa.id
         placas_cliente['codigo'] = placa.codigo
         placas_cliente['descricao'] = placa.descricao
         placas_cliente['modelo'] = placa.modelo
-        placasArray.append(placas_cliente)
-
-    return jsonify({f'placas_cliente_{id_cliente}': placasArray})
+        clienteDict['placas'].append(placas_cliente)
+    return jsonify(clienteDict)
 
 
 @app.route('/logout')
