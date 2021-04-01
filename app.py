@@ -1,4 +1,4 @@
-from flask import Flask, session, render_template, request, url_for, redirect, jsonify
+from flask import Flask, session, render_template, request, url_for, redirect, jsonify # noqa
 
 from flask_sqlalchemy import SQLAlchemy
 
