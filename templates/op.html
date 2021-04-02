@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block title %}Ordens de produção{% endblock %}
+
+{%block head%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css')}}">
+{%endblock%}
+
+
+{% block content %}
+
+    <h1>Bem vindo {{current_user.username}}</h1>
+
+{% endblock %}

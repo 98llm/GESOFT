@@ -167,10 +167,10 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/op', methods=['POST', 'GET'])
+@app.route('/op', methods=['GET'])
 @login_required
 def op():
-    return render_template('login.html')
+    return render_template('op.html')
 
 
 @app.route('/op/adicionar', methods=['POST', 'GET'])
@@ -181,12 +181,12 @@ def add_op():
     # [(cliente.placas) for cliente in Cliente.query.filter_by(id = 1)]
     if request.method == 'POST':
         new_op = OP(
-                qtd_placas=request.form['qtd_placas'],
-                num_romaneio=request.form['num_romaneio'],
-                status=request.form['status'],
-                id_usuario=current_user.id,  # fk
-                id_cliente=request.form['id_cliente'],
-                id_placa=request.form['qtd_placas']
+                    qtd_placas=request.form['qtd_placas'],
+                    num_romaneio=request.form['num_romaneio'],
+                    status=request.form['status'],
+                    id_usuario=current_user.id,  # fk
+                    id_cliente=request.form.get('cliente'),
+                    id_placa=request.form.get('placa'),
         )
         db.session.add(new_op)
         db.session.commit()
@@ -212,7 +212,7 @@ def api_placas(id_cliente):
         placas_cliente['descricao'] = placa.descricao
         placas_cliente['modelo'] = placa.modelo
         clienteDict['placas'].append(placas_cliente)
-    return jsonify(clienteDict)
+    return jsonify({'cliente': clienteDict})
 
 
 @app.route('/logout')
