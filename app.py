@@ -1,5 +1,9 @@
 from flask import Flask, session, render_template, request, url_for, redirect, jsonify # noqa
 
+from json import dump, dumps
+
+import pytz
+
 from flask_sqlalchemy import SQLAlchemy
 
 from flask_login import (
@@ -74,8 +78,8 @@ class OP(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     qtd_placas = db.Column(db.Integer, nullable=False)
     num_romaneio = db.Column(db.String, nullable=False)
-    status = db.Column(db.String(20), nullable=False)
-    dta_emissao = db.Column(db.DateTime, nullable=False, default=datetime.utcnow) # noqa
+    status = db.Column(db.String(20), nullable=False, default='Em andamento')
+    dta_emissao = db.Column(db.DateTime, nullable=False, default=datetime.utcnow()) # noqa
     id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id'))
     id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id'))
     id_placa = db.Column(db.Integer, db.ForeignKey('placa.id'))
@@ -167,10 +171,10 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/op', methods=['POST', 'GET'])
+@app.route('/op', methods=['GET'])
 @login_required
 def op():
-    return render_template('login.html')
+    return render_template('op.html', user=current_user)
 
 
 @app.route('/op/adicionar', methods=['POST', 'GET'])
@@ -181,12 +185,12 @@ def add_op():
     # [(cliente.placas) for cliente in Cliente.query.filter_by(id = 1)]
     if request.method == 'POST':
         new_op = OP(
-                qtd_placas=request.form['qtd_placas'],
-                num_romaneio=request.form['num_romaneio'],
-                status=request.form['status'],
-                id_usuario=current_user.id,  # fk
-                id_cliente=request.form['id_cliente'],
-                id_placa=request.form['qtd_placas']
+                    qtd_placas=request.form['qtd_placas'],
+                    num_romaneio=request.form['num_romaneio'],
+                    dta_emissao=datetime.utcnow(),# noqa
+                    id_usuario=current_user.id,  # fk
+                    id_cliente=request.form.get('cliente'),
+                    id_placa=request.form.get('placa'),
         )
         db.session.add(new_op)
         db.session.commit()
@@ -204,7 +208,11 @@ def api_placas(id_cliente):
     clienteDict['id'] = cliente.id
     clienteDict['nome'] = cliente.nome
     clienteDict['placas'] = []
-
+    '''
+    Para cada placa encontrada com o cliente informado,
+    cria um novo dict com as informações da mesma e
+    adiciona na lista de placas
+    '''
     for placa in cliente.placas:
         placas_cliente = {}
         placas_cliente['id'] = placa.id
@@ -212,7 +220,7 @@ def api_placas(id_cliente):
         placas_cliente['descricao'] = placa.descricao
         placas_cliente['modelo'] = placa.modelo
         clienteDict['placas'].append(placas_cliente)
-    return jsonify(clienteDict)
+    return jsonify({'cliente': clienteDict})
 
 
 @app.route('/logout')

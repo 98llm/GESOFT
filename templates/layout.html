@@ -2,24 +2,24 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css')}}">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css')}}">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
 
-    <title>{% block title %}{% endblock %} - SIMPLAC</title>
-    {% block head %}
-    {% endblock %}
+  <title>{% block title %}{% endblock %} - SIMPLAC</title>
+  {% block head %}
+  {% endblock %}
 </head>
 
 <body>
-    {%if user%}
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  {%if user%}
+  
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/">
-        <img src="../static/images/brand.png" width="30px" height="30px" class="" alt="Simplac-Brand">
-        GESOFT
+      <img src="../static/images/brand.png" width="30px" height="30px" class="" alt="Simplac-Brand">
+      GESOFT
     </a>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -29,11 +29,12 @@
           <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
+          <a class="nav-link" href="/op">OP</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            OP
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="#">Action</a>
@@ -42,29 +43,29 @@
             <a class="dropdown-item" href="#">Something else here</a>
           </div>
         </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#">Disabled</a>
-        </li>
       </ul>
 
       <li class="navbar-nav my-2 my-lg-0 ">
         <a class="nav-link" href="/logout">
-            <img src="../static/images/botao-logout.png" width="25" height="25"
-                class="stretched-link" alt="Simplac-Brand" >
-            Log Out
+          <img src="../static/images/botao-logout.png" width="25" height="25" class="stretched-link"
+            alt="Simplac-Brand">
+          Log Out
         </a>
-    </li>
+      </li>
     </div>
   </nav>
-    {%endif%}
+  {%endif%}
 
-    {% block content %}
-    {% endblock %}
+  {% block content %}
+  {% endblock %}
 
-    {% block scripts %}{% endblock %}
+  {% block scripts %}{% endblock %}
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/main.js')}}"></script>
 </body>
 
 </html>
