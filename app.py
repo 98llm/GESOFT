@@ -24,7 +24,7 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = b"\x05\x19s\x8a\xd06\x07\xf8ofL0\xc5-\xc0"
 
 # configure database
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:123@localhost:5432/teste" # noqa
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:Kenny121@localhost:5432/teste" # noqa
 
 db = SQLAlchemy(app)
 
@@ -35,7 +35,7 @@ login_manager.login_view = "login"
 connection = psycopg2.connect(
     host="localhost",
     user="postgres",
-    password="123",
+    password="Kenny121",
     dbname="teste"
 )
 
@@ -90,7 +90,7 @@ class Placa(db.Model):
     codigo = db.Column(db.String, nullable=False, unique=True)
     descricao = db.Column(db.String, nullable=False)
     modelo = db.Column(db.String, nullable=True)
-    qtd_componente = db.Column(db.Integer, nullable=True)
+    qtd_componentes = db.Column(db.Integer, nullable=True)
     id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id'))
     ops = db.relationship('OP',
                           backref='placa_op',
@@ -198,6 +198,31 @@ def add_op():
     return render_template('adicionar_op.html',
                            user=current_user,
                            clientes=clientes)
+
+
+@app.route('/placa', methods=['POST', 'GET'])
+@login_required
+def consultar_placas():
+    placas = Placa.query.all()
+    return render_template('placa.html', placas=placas)
+
+
+@app.route('/placa/add', methods=['POST', 'GET'])
+def adicionar_placas():
+    clientes = Cliente.query.all()
+    if request.method == 'POST':
+        placa = Placa(
+                      codigo=request.form['codigo'],
+                      descricao=request.form['descricao'],
+                      modelo=request.form['modelo'],
+                      qtd_componentes=request.form['qtd_componentes'],
+                      id_cliente=request.form['id_cliente']
+                    )
+        db.session.add(placa)
+        db.session.commit()
+        return redirect(url_for('consultar_placas'))
+    return render_template('adiciona_placa.html', clientes=clientes)
+
 
 
 @app.route('/api/cliente/<int:id_cliente>')

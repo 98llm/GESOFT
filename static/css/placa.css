@@ -1,0 +1,36 @@
+h3 {
+    text-align: center;
+    color: white;
+}
+
+.placas-container {
+    background-color: #0062cc;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    padding: 5%;
+}
+
+.filter-group {
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.form-group {
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.results-container {
+    background-color: rgb(255, 255, 255);
+}
+
+.top-table {
+    background-color: gray;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+table {
+    width: 100%;
+}
