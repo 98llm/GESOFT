@@ -208,10 +208,11 @@ def add_op():
 @login_required
 def consultar_placas():
     placas = Placa.query.all()
-    return render_template('placa.html', placas=placas)
+    return render_template('placa.html', placas=placas, user=current_user)
 
 
 @app.route('/placa/add', methods=['POST', 'GET'])
+@login_required
 def adicionar_placas():
     clientes = Cliente.query.all()
     if request.method == 'POST':
@@ -225,8 +226,7 @@ def adicionar_placas():
         db.session.add(placa)
         db.session.commit()
         return redirect(url_for('consultar_placas'))
-    return render_template('adiciona_placa.html', clientes=clientes)
-
+    return render_template('adiciona_placa.html', clientes=clientes, user=current_user)
 
 @app.route('/api/cliente/<int:id_cliente>')
 @login_required
