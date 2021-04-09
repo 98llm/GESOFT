@@ -1,9 +1,5 @@
 from flask import Flask, session, render_template, request, url_for, redirect, jsonify # noqa
 
-from json import dump, dumps
-
-import pytz
-
 from flask_sqlalchemy import SQLAlchemy
 
 from flask_login import (
@@ -90,7 +86,7 @@ class Placa(db.Model):
     codigo = db.Column(db.String, nullable=False, unique=True)
     descricao = db.Column(db.String, nullable=False)
     modelo = db.Column(db.String, nullable=True)
-    qtd_componente = db.Column(db.Integer, nullable=True)
+    qtd_componentes = db.Column(db.Integer, nullable=True)
     id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id'))
     ops = db.relationship('OP',
                           backref='placa_op',
@@ -109,8 +105,12 @@ class Componente(db.Model):
 
 
 class Placa_componente(db.Model):
-    id_placa = db.Column(db.Integer, db.ForeignKey('placa.id'), primary_key=True) # noqa
-    id_componente = db.Column(db.Integer, db.ForeignKey('componente.id'), primary_key=True) # noqa
+    id_placa = db.Column(db.Integer,
+                         db.ForeignKey('placa.id'),
+                         primary_key=True)
+    id_componente = db.Column(db.Integer,
+                              db.ForeignKey('componente.id'),
+                              primary_key=True) # noqa
 
 
 class Cliente(db.Model):
@@ -134,12 +134,16 @@ class Cliente(db.Model):
 
 
 class Telefone(db.Model):
-    id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id'), primary_key=True) # noqa
+    id_cliente = db.Column(db.Integer,
+                           db.ForeignKey('cliente.id'),
+                           primary_key=True)
     telefone = db.Column(db.String, nullable=False)
 
 
 class Endereco_cliente(db.Model):
-    id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id'), primary_key=True) # noqa
+    id_cliente = db.Column(db.Integer,
+                           db.ForeignKey('cliente.id'),
+                           primary_key=True)
     logradouro = db.Column(db.String, nullable=False)
     numero = db.Column(db.String, nullable=False)
     bairro = db.Column(db.String, nullable=False)
@@ -209,9 +213,9 @@ def api_placas(id_cliente):
     clienteDict['nome'] = cliente.nome
     clienteDict['placas'] = []
     '''
-    Para cada placa encontrada com o cliente informado,
-    cria um novo dict com as informações da mesma e
-    adiciona na lista de placas
+    Para cada placa do cliente informado,
+    adiciona as informações da mesma em um
+    dict
     '''
     for placa in cliente.placas:
         placas_cliente = {}
