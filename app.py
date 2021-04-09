@@ -228,7 +228,6 @@ def adicionar_placas():
     return render_template('adiciona_placa.html', clientes=clientes)
 
 
-
 @app.route('/api/cliente/<int:id_cliente>')
 @login_required
 def api_placas(id_cliente):
