@@ -24,7 +24,7 @@ class User(UserMixin, db.Model):
 connection = psycopg2.connect(
     host ="localhost",
     user = "postgres",
-    password = "Kenny121",
+    password = "123",
     databasename = "teste"
 )
 
