@@ -21,8 +21,8 @@ componente3 = Componente(codigo="2", tipo="teste3", nome="teste3", referencia="t
 
 
 # modelo de instancia objeto Placa
-placa1 = Placa(codigo="1", descricao="teste1", modelo="teste1", qtd_componente="3", id_cliente=1)
-placa2 = Placa(codigo="2", descricao="teste2", modelo="teste2", qtd_componente="3", id_cliente=2)
+placa1 = Placa(codigo="1", descricao="teste1", modelo="teste1", qtd_componentes="3", id_cliente=1)
+placa2 = Placa(codigo="2", descricao="teste2", modelo="teste2", qtd_componentes="3", id_cliente=2)
 
 #modelo de instancia objeto Cliente
 cliente1= Cliente(cnpj='0132', nome='cliente1')
