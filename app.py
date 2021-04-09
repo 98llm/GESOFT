@@ -20,7 +20,7 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = b"\x05\x19s\x8a\xd06\x07\xf8ofL0\xc5-\xc0"
 
 # configure database
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:Kenny121@localhost:5432/teste" # noqa
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:123@localhost:5432/teste" # noqa
 
 db = SQLAlchemy(app)
 
@@ -31,7 +31,7 @@ login_manager.login_view = "login"
 connection = psycopg2.connect(
     host="localhost",
     user="postgres",
-    password="Kenny121",
+    password="123",
     dbname="teste"
 )
 
@@ -226,7 +226,6 @@ def adicionar_placas():
         db.session.commit()
         return redirect(url_for('consultar_placas'))
     return render_template('adiciona_placa.html', clientes=clientes)
-
 
 
 @app.route('/api/cliente/<int:id_cliente>')
