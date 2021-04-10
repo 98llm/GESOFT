@@ -25,7 +25,6 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:un1v3r50#123@loca
 # =======
 # configure database
 # app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:123@localhost:5432/teste" # noqa
-# >>>>>>> 67263524a8664d20e1cbeaf593f25b8f4a56a767
 
 db = SQLAlchemy(app)
 
@@ -43,7 +42,6 @@ connection = psycopg2.connect(
 # user="postgres",
 # password="123",
 # dbname="teste"
-# >>>>>>> 67263524a8664d20e1cbeaf593f25b8f4a56a767
 )
 
 cursor = connection.cursor()
