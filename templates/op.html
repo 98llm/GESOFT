@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block title %}Ordens de produção{% endblock %}
+
+{%block head%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/op.css')}}">
+{%endblock%}
+
+
+{% block content %}
+
+<div class="placas-container">
+    <h1 id="info" class="shadow-lg p-3 mb-5 rounded">Ordens de produção</h1>
+
+    <div class="form-group d-flex justify-content-end">
+        <select name="filtros" id="filtros">
+            <option value="" disabled selected>Selecione filtro</option>
+            <option value="ID">ID</option>
+            <option value="Código">Código</option>
+            <option value="Modelo">Modelo</option>
+            <option value="Cliente">Cliente</option>
+        </select>
+
+        <button type="button" class="fi_button btn mr10">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path
+                    d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z">
+                </path>
+            </svg>
+            filtrar
+        </button>
+    </div>
+</div>
+
+<div class="container table-responsive-sm">
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Status</th>
+                <th class="fit" scope="col"><abbr title="Quantidade de Componentes">Qtd</abbr></th>
+                <th scope="col">Criado em</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for op in ops %}
+            <tr>
+                <th scope="row">{{op.id}}</th>
+                <td>{{op.cliente.nome}}</td>
+                <td>{{op.status}}</td>
+                <td>{{op.qtd_placas}}</td>
+                <td>{{op.dta_emissao.strftime('%d-%m-%Y %H:%M')}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+
+{% endblock %}

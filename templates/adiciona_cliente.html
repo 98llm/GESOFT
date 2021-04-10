@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+
+{%block head%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/op.css')}}">
+{%endblock%}
+
+
+{% block content %}
+
+<div class="container cliente">
+    <form method="POST" action="/cliente/adicionar">
+        <div class="form-group">
+            <div class="form-group">
+                <label class="col-form-label" required for="nome_cliente">Nome completo</label>
+                <input required type="text" name="nome_cliente" class="form-control" id="input_nome_cliente"
+                    placeholder="Digite o nome completo">
+            </div>
+
+            <div class="form-group">
+                <label class="col-form-label">CNPJ</label>
+                <input required type="text" name="cnpj" id="input_cnpj" class="form-control"
+                    placeholder="Digite o CNPJ">
+            </div>
+
+            <div class="form-group">
+                <label class="col-form-label">Telefone</label>
+                <input required type="text" name="telefone" id="input_telefone" class="form-control"
+                    placeholder="Digite o telefone">
+            </div>
+
+            <div class="form-group">
+                <label class="col-form-label">Logradouro</label>
+                <input required type="text" name="logradouro" id="input_logradouro" class="form-control"
+                    placeholder="Digite o logradouro">
+            </div>
+
+            <div class="form-group">
+                <label class="col-form-label">Número</label>
+                <input required type="text" name="numero" id="input_numero" class="form-control"
+                    placeholder="Digite o número">
+            </div>
+
+            <div class="form-group">
+                <label class="col-form-label">Bairro</label>
+                <input required type="text" name="bairro" id="input_bairro" class="form-control"
+                    placeholder="Digite o bairro">
+            </div>
+
+            <div class="form-group">
+                <label class="col-form-label">CEP</label>
+                <input required type="text" name="cep" id="input_cep" class="form-control"
+                    placeholder="Digite o CEP">
+            </div>
+
+            <div class="form-group">
+                <label class="col-form-label">UF</label>
+                <input required type="text" name="uf" id="input_uf" class="form-control"
+                    placeholder="Digite o UF">
+            </div>
+
+            <div class="d-flex justify-content-start">
+
+                <input class="btn btn-primary" type="submit" value="Submit">
+
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+    {% block scripts %}
+    <script src="{{ url_for('static', filename='js/main.js')}}"></script>
+    {% endblock %}
+{% endblock %}

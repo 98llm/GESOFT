@@ -1,0 +1,20 @@
+.placas-container {
+    background-color: #0062cc;
+    padding: 2%;
+}
+
+#info{
+    color: aliceblue;
+}
+
+.fi_button{
+    background-color: rgb(255, 251, 251);
+    color: rgb(119, 0, 0);
+    margin-left: 10px;
+}
+
+.fi_button:hover {
+    color: rgb(255, 255, 255);
+    background-color: #dc3545;
+    border-color: #dc3545;
+}

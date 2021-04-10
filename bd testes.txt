@@ -1,0 +1,51 @@
+# importa db
+from app import db
+
+# importa os Objetos/tabelas
+from app import Componente, Placa, Placa_componente
+
+
+# cria db
+db.create_all()
+
+
+# modelo de instancia objeto Usuario
+usuario = Usuario("user_teste","123", "nome_teste", "cargo_teste")
+
+
+
+# modelo de instancia objeto Componente
+componente1 = Componente(codigo="43", tipo="teste1", nome="teste1", referencia="teste1")
+componente2 = Componente(codigo="2", tipo="teste2", nome="teste2", referencia="teste2")
+componente3 = Componente(codigo="2", tipo="teste3", nome="teste3", referencia="teste3")
+
+
+# modelo de instancia objeto Placa
+placa1 = Placa(codigo="1", descricao="teste1", modelo="teste1", qtd_componentes="3", id_cliente=1)
+placa2 = Placa(codigo="2", descricao="teste2", modelo="teste2", qtd_componentes="3", id_cliente=2)
+
+#modelo de instancia objeto Cliente
+cliente1= Cliente(cnpj='0132', nome='cliente1')
+cliente2= Cliente(cnpj='59265', nome='cliente2')
+
+# adiciona uma instancia criada a sessao do bd
+db.session.add(componente1)
+db.session.add(componente2)
+db.session.add(componente3)
+
+
+db.session.add(placa1)
+db.session.add(placa2)
+
+
+# modelo de instancia a Objeto com chaves estrangeiras
+placa_componente1= Placa_componente(id_placa=placa1.id, id_componente=componente1.id)
+placa_componente2= Placa_componente(id_placa=placa1.id, id_componente=componente2.id)
+placa_componente3= Placa_componente(id_placa=placa2.id, id_componente=componente2.id)
+
+db.session.add(placa_componente1)
+db.session.add(placa_componente2)
+
+# comita as alterações adicionadas anteriormente ao bd
+db.session.commit()
+

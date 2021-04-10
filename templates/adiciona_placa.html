@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}Adiciona Placa{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/placa_add.css')}}">
+{% endblock %}
+
+
+
+{% block content %}
+<div class="container col-xl-3">
+    <form action="{{ url_for('adicionar_placas') }}" method="POST">
+        <div class="form-group">
+            <label class="col-form-label">Cliente</label>
+            <select required name="id_cliente" id="id_cliente" class="form-control">
+                <option value="" disabled selected>Selecionar</option>
+                {% for cliente in clientes%}
+                <option value="{{cliente.id}}">{{cliente.id}} - {{cliente.nome}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="col-form-label" required for="codigo">Codigo</label>
+            <input type="text" name="codigo" class="form-control" placeholder="Codigo" />
+        </div>
+
+        <div class="form-group">
+            <label class="col-form-label" required for="modelo">Modelo</label>
+            <input type="text" name="modelo" class="form-control" placeholder="Modelo" />
+        </div>
+
+        <div class="form-group">
+            <label class="col-form-label" required for="qtd_componentes">Qtd de componentes</label>
+            <input required min="1" step="1" type="number" name="qtd_componentes" class="form-control"
+                placeholder="Qtd Componentes" />
+        </div>
+
+        <div class="form-group">
+            <label for="Descricao">Descrição</label>
+            <textarea class="form-control" name="descricao" id="text_area_placa" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" name="botao_adicionar" class="form-control" placeholder="Adicionar" />
+        </div>
+    </form>
+</div>
+
+{% endblock %}
