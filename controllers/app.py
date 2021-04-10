@@ -6,8 +6,7 @@ import psycopg2
 # cria instancia flask
 app = Flask(__name__)
 
-# cria instancia flask_SQLAlchemy
-db = SQLAlchemy(app)
+
 
 # configura secrect key para sessão
 app.config["SECRET_KEY"] = b"\x05\x19s\x8a\xd06\x07\xf8ofL0\xc5-\xc0"
