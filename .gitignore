@@ -1,5 +1,14 @@
 venv/
+<<<<<<< HEAD
 __pycache__/
 .vscode/
 controllers/
 models/
+=======
+<<<<<<< HEAD
+__pycache__/
+models/
+=======
+__pycache__/
+>>>>>>> leandro
+>>>>>>> main
