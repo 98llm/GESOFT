@@ -1,1 +1,7 @@
 venv/
+<<<<<<< HEAD
+__pycache__/
+models/
+=======
+__pycache__/
+>>>>>>> leandro

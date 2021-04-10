@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+
+{%block head%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/op.css')}}">
+{%endblock%}
+
+
+{% block content %}
+
+<div class="container col-md-4 col-md-offset-4">
+    <form method="POST" action="/op/adicionar">
+        <div class="form-group">
+            <div class="form-group">
+                <label class="col-form-label" required for="num_romaneio">Numero do romaneio</label>
+                <input required type="text" name="num_romaneio" class="form-control" id="input_num_romaneio"
+                    placeholder="N° do romaneio">
+            </div>
+
+            <div class="form-group">
+                <label class="col-form-label">Cliente</label>
+                <select required name="cliente" id="id_cliente" class="form-control">
+                    <option value="" disabled selected>Selecionar</option>
+                    {% for cliente in clientes%}
+                    <option value="{{cliente.id}}">{{cliente.id}} - {{cliente.nome}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="row">
+
+                <div class="form-group col">
+                    <label for="id_placa">Modelo da Placa</label>
+                    <select id="id_placa" name="placa" class="form-control">
+                        <option value="" disabled selected>Selecionar</option>
+                    </select>
+                </div>
+                <div class="form-group col">
+                    <label for="qtd_placas">Quantidade</label>
+                    <input required min="1" name="qtd_placas" step="1" type="number" class="form-control" id="input_qtd"
+                        placeholder="qtd">
+                </div>
+
+            </div>
+
+            <div class="d-flex justify-content-start">
+
+                <input class="btn btn-primary" type="submit" value="Submit">
+
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+    {% block scripts %}
+    <script src="{{ url_for('static', filename='js/main.js')}}"></script>
+    {% endblock %}
+{% endblock %}
