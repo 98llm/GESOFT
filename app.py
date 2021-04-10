@@ -19,13 +19,13 @@ from datetime import datetime
 app = Flask(__name__)
 app.config["SECRET_KEY"] = b"\x05\x19s\x8a\xd06\x07\xf8ofL0\xc5-\xc0"
 
-<<<<<<< HEAD
-#configure database
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:un1v3r50#123@localhost:5432/teste"
-=======
+# <<<<<<< HEAD
 # configure database
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:123@localhost:5432/teste" # noqa
->>>>>>> 67263524a8664d20e1cbeaf593f25b8f4a56a767
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:un1v3r50#123@localhost:5432/teste"
+# =======
+# configure database
+# app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:123@localhost:5432/teste" # noqa
+# >>>>>>> 67263524a8664d20e1cbeaf593f25b8f4a56a767
 
 db = SQLAlchemy(app)
 
@@ -34,17 +34,16 @@ login_manager = LoginManager(app)
 login_manager.login_view = "login"
 
 connection = psycopg2.connect(
-<<<<<<< HEAD
     host ="localhost",
     user = "postgres",
     password = "un1v3r50#123",
     dbname = "teste"
-=======
-    host="localhost",
-    user="postgres",
-    password="123",
-    dbname="teste"
->>>>>>> 67263524a8664d20e1cbeaf593f25b8f4a56a767
+# =======
+# host="localhost",
+# user="postgres",
+# password="123",
+# dbname="teste"
+# >>>>>>> 67263524a8664d20e1cbeaf593f25b8f4a56a767
 )
 
 cursor = connection.cursor()
@@ -131,14 +130,14 @@ class Cliente(db.Model):
     nome = db.Column(db.String, nullable=False)
     ops = db.relationship('OP',
                           backref='cliente')
-    endereco = db.relationship('OP',
+    endereco = db.relationship('Endereco_cliente',
                                backref='endereco',
                                uselist=False)
-    telefones = db.relationship('OP',
-                                backref='dono',
+    telefones = db.relationship('Telefone',
+                                backref='cliente',
                                 lazy=True)
     placas = db.relationship('Placa',
-                             backref='placas',
+                             backref='cliente',
                              lazy=True)
 
     def __repr__(self):
@@ -146,16 +145,14 @@ class Cliente(db.Model):
 
 
 class Telefone(db.Model):
-    id_cliente = db.Column(db.Integer,
-                           db.ForeignKey('cliente.id'),
-                           primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id'))
     telefone = db.Column(db.String, nullable=False)
 
 
 class Endereco_cliente(db.Model):
-    id_cliente = db.Column(db.Integer,
-                           db.ForeignKey('cliente.id'),
-                           primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id'))
     logradouro = db.Column(db.String, nullable=False)
     numero = db.Column(db.String, nullable=False)
     bairro = db.Column(db.String, nullable=False)
@@ -187,10 +184,54 @@ def login():
     return render_template('login.html')
 
 
+@app.route('/cliente', methods=['GET'])
+@login_required
+def cliente():
+    clientes = Cliente.query.all()
+    return render_template(
+        'cliente.html',
+        user=current_user,
+        clientes=clientes
+    )
+
+
+@app.route('/cliente/adicionar', methods=['POST', 'GET'])
+@login_required
+def add_cliente():
+    clientes = Cliente.query.all()
+    # retorna uma lista com todas os clientes
+    if request.method == 'POST':
+        new_entity = Cliente(
+                    nome=request.form['nome_cliente'],
+                    cnpj=request.form['cnpj']
+        )
+        db.session.add(new_entity)
+        db.session.commit()
+
+        new_telefone = Telefone(
+                    telefone=request.form['telefone'],
+                    id_cliente=new_entity.id  # fk
+        )
+        new_endereco = Endereco_cliente(
+                    logradouro=request.form['logradouro'],
+                    numero=request.form['numero'],
+                    bairro=request.form['bairro'],
+                    cep=request.form['cep'],
+                    uf=request.form['uf'],
+                    id_cliente=new_entity.id  # fk
+        )
+        db.session.add(new_telefone)
+        db.session.add(new_endereco)
+        db.session.commit()
+        return redirect(url_for('cliente'))
+    return render_template('adiciona_cliente.html', user=current_user)
+
+
 @app.route('/op', methods=['GET'])
 @login_required
 def op():
-    return render_template('op.html', user=current_user)
+    ops = OP.query.all()
+    return render_template('op.html', user=current_user, ops=ops)
 
 
 @app.route('/op/adicionar', methods=['POST', 'GET'])
@@ -238,7 +279,10 @@ def adicionar_placas():
         db.session.add(placa)
         db.session.commit()
         return redirect(url_for('consultar_placas'))
-    return render_template('adiciona_placa.html', clientes=clientes, user=current_user)
+    return render_template('adiciona_placa.html',
+                           clientes=clientes,
+                           user=current_user)
+
 
 @app.route('/api/cliente/<int:id_cliente>')
 @login_required

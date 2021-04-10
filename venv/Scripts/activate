@@ -46,7 +46,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV='C:\Users\mvicf\OneDrive\Área de Trabalho\Pastas\Faculdade Impacta\OPE\GESOFT\venv'
+VIRTUAL_ENV='C:\Users\mvicf\GESOFT\venv'
 if ([ "$OSTYPE" = "cygwin" ] || [ "$OSTYPE" = "msys" ]) && $(command -v cygpath &> /dev/null) ; then
     VIRTUAL_ENV=$(cygpath -u "$VIRTUAL_ENV")
 fi

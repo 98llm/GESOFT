@@ -1,6 +1,6 @@
 @echo off
 
-set "VIRTUAL_ENV=C:\Users\mvicf\OneDrive\Área de Trabalho\Pastas\Faculdade Impacta\OPE\GESOFT\venv"
+set "VIRTUAL_ENV=C:\Users\mvicf\GESOFT\venv"
 
 if defined _OLD_VIRTUAL_PROMPT (
     set "PROMPT=%_OLD_VIRTUAL_PROMPT%"
