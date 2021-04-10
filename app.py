@@ -10,7 +10,7 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = b"\x05\x19s\x8a\xd06\x07\xf8ofL0\xc5-\xc0"
 
 #configure database
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:123@localhost:5432/teste"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:un1v3r50#123@localhost:5432/teste"
 
 db = SQLAlchemy(app)
 
@@ -22,7 +22,7 @@ login_manager.login_view = "login"
 connection = psycopg2.connect(
     host ="localhost",
     user = "postgres",
-    password = "123",
+    password = "un1v3r50#123",
     dbname = "teste"
 )
 
