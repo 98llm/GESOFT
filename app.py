@@ -119,11 +119,11 @@ class Cliente(db.Model):
     nome = db.Column(db.String, nullable=False)
     ops = db.relationship('OP',
                           backref='cliente')
-    endereco = db.relationship('OP',
+    endereco = db.relationship('Endereco_cliente',
                                backref='endereco',
                                uselist=False)
-    telefones = db.relationship('OP',
-                                backref='dono',
+    telefones = db.relationship('Telefone',
+                                backref='cliente',
                                 lazy=True)
     placas = db.relationship('Placa',
                              backref='cliente',
