@@ -126,7 +126,7 @@ class Cliente(db.Model):
                                 backref='dono',
                                 lazy=True)
     placas = db.relationship('Placa',
-                             backref='placas',
+                             backref='cliente',
                              lazy=True)
 
     def __repr__(self):
@@ -178,7 +178,8 @@ def login():
 @app.route('/op', methods=['GET'])
 @login_required
 def op():
-    return render_template('op.html', user=current_user)
+    ops = OP.query.all()
+    return render_template('op.html', user=current_user, ops=ops)
 
 
 @app.route('/op/adicionar', methods=['POST', 'GET'])
