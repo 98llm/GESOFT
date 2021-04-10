@@ -13,15 +13,27 @@
 {% block content %}
 <div class="placas-container">
     <h1 id="info" class="shadow-lg p-3 mb-5 rounded">Placas</h1>
-    <div class="form-group">
-        <label for="filtros">Selecione um filtro: </label>
+    
+    <div class="form-group d-flex justify-content-end">
         <select name="filtros" id="filtros">
+            <option value="" disabled selected>Selecione filtro</option>
             <option value="ID">ID</option>
             <option value="Código">Código</option>
             <option value="Modelo">Modelo</option>
             <option value="Cliente">Cliente</option>
         </select>
+
+        <button type="button" class="fi_button btn mr10">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" 
+                viewBox="0 0 16 16">
+                <path
+                    d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z">
+                </path>
+            </svg>
+            filtrar
+        </button>
     </div>
+
 </div>
 
 <div class="container d-flex justify-content-end">
