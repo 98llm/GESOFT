@@ -230,6 +230,7 @@ def adicionar_placas():
                            clientes=clientes,
                            user=current_user)
 
+
 @app.route('/api/cliente/<int:id_cliente>')
 @login_required
 def api_placas(id_cliente):

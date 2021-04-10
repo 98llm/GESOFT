@@ -1,8 +1,13 @@
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:123@localhost:5432/teste" # noqa
+from ..controllers import app
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
+
 
 
 db = SQLAlchemy(app)
+
 
 class Usuario(db.Model, UserMixin):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
