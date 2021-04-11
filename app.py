@@ -19,12 +19,9 @@ from datetime import datetime
 app = Flask(__name__)
 app.config["SECRET_KEY"] = b"\x05\x19s\x8a\xd06\x07\xf8ofL0\xc5-\xc0"
 
-# <<<<<<< HEAD
+
 # configure database
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:un1v3r50#123@localhost:5432/teste"
-# =======
-# configure database
-# app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:123@localhost:5432/teste" # noqa
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:123@localhost:5432/teste" # noqa
 
 db = SQLAlchemy(app)
 
@@ -33,15 +30,10 @@ login_manager = LoginManager(app)
 login_manager.login_view = "login"
 
 connection = psycopg2.connect(
-    host ="localhost",
-    user = "postgres",
-    password = "un1v3r50#123",
-    dbname = "teste"
-# =======
-# host="localhost",
-# user="postgres",
-# password="123",
-# dbname="teste"
+    host="localhost",
+    user="postgres",
+    password="123",
+    dbname="teste"
 )
 
 cursor = connection.cursor()
@@ -187,17 +179,15 @@ def login():
 def cliente():
     clientes = Cliente.query.all()
     return render_template(
-        'cliente.html',
-        user=current_user,
-        clientes=clientes
+                            'cliente.html',
+                            user=current_user,
+                            clientes=clientes
     )
 
 
 @app.route('/cliente/adicionar', methods=['POST', 'GET'])
 @login_required
 def add_cliente():
-    clientes = Cliente.query.all()
-    # retorna uma lista com todas os clientes
     if request.method == 'POST':
         new_entity = Cliente(
                     nome=request.form['nome_cliente'],
@@ -225,11 +215,14 @@ def add_cliente():
     return render_template('adiciona_cliente.html', user=current_user)
 
 
-@app.route('/op', methods=['GET'])
+# rota para vizualizacao das OPs| Define pagina 1 como padrao
+@app.route('/op', methods=['GET', 'POST'], defaults={'page_num': 1})
+@app.route('/op/<int:page_num>', methods=['GET', 'POST'])
 @login_required
-def op():
-    ops = OP.query.all()
-    return render_template('op.html', user=current_user, ops=ops)
+def op(page_num):
+    ops = OP.query.paginate(per_page=5, page=page_num, error_out=True)
+    total = ops.total
+    return render_template('op.html', user=current_user, ops=ops, total=total)
 
 
 @app.route('/op/adicionar', methods=['POST', 'GET'])
