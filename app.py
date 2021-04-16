@@ -21,7 +21,7 @@ app.config["SECRET_KEY"] = b"\x05\x19s\x8a\xd06\x07\xf8ofL0\xc5-\xc0"
 
 # <<<<<<< HEAD
 # configure database
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:un1v3r50#123@localhost:5432/teste"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:Kenny121@localhost:5432/teste"
 # =======
 # configure database
 # app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:123@localhost:5432/teste" # noqa
@@ -35,7 +35,7 @@ login_manager.login_view = "login"
 connection = psycopg2.connect(
     host ="localhost",
     user = "postgres",
-    password = "un1v3r50#123",
+    password = "Kenny121",
     dbname = "teste"
 # =======
 # host="localhost",
@@ -196,7 +196,7 @@ def cliente():
 @app.route('/cliente/adicionar', methods=['POST', 'GET'])
 @login_required
 def add_cliente():
-    clientes = Cliente.query.all()
+    #clientes = Cliente.query.all()
     # retorna uma lista com todas os clientes
     if request.method == 'POST':
         new_entity = Cliente(
@@ -272,7 +272,8 @@ def adicionar_placas():
                       descricao=request.form['descricao'],
                       modelo=request.form['modelo'],
                       qtd_componentes=request.form['qtd_componentes'],
-                      id_cliente=request.form['id_cliente']
+                      id_cliente=request.form['id_cliente'],
+                      
                     )
         db.session.add(placa)
         db.session.commit()

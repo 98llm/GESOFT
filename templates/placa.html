@@ -7,6 +7,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/placa.css')}}">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css" rel="stylesheet">
 {% endblock %}
 
 
@@ -32,6 +34,7 @@
             </svg>
             filtrar
         </button>
+        <input class="form-control" id="myInput" type="text" placeholder="Search..">
     </div>
 
 </div>
@@ -44,13 +47,13 @@
     <table class="table table-striped table-bordered table-hover">
         <thead>
             <tr>
-                <th scope="col">Código</th>
-                <th scope="col">Modelo</th>
-                <th scope="col">Cliente</th>
-                <th class="fit" scope="col"><abbr title="Quantidade de Componentes">Qtd</abbr></th>
+                <th scope="col" >Código</th>
+                <th scope="col" >Modelo</th>
+                <th scope="col" >Cliente</th>
+                <th class="fit" scope="col" ><abbr title="Quantidade de Componentes">Qtd</abbr></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="myTable">
             {% for placa in placas %}
             <tr>
                 <th scope="row">{{placa.codigo}}</th>
@@ -69,5 +72,18 @@
     integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
     </script>
 <script src="{{ url_for('static', filename='js/placa.js')}}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+<script>
+    $(document).ready(function(){
+      $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+    </script>
 {% endblock %}
 {% endblock %}
