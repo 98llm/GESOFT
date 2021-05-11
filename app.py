@@ -1,6 +1,11 @@
 from flask import Flask, session, render_template, request, url_for, redirect, jsonify # noqa
-
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
+from markupsafe import escape   # noqa
+
+import pytz
+import psycopg2
+from datetime import datetime
 
 from flask_login import (
     UserMixin,
@@ -10,11 +15,6 @@ from flask_login import (
     login_required,
     current_user)
 
-from werkzeug.security import generate_password_hash, check_password_hash
-from markupsafe import escape   # noqa
-import psycopg2
-import pytz
-from datetime import datetime
 
 # Configure app
 app = Flask(__name__)
@@ -188,8 +188,6 @@ def cliente():
 @app.route('/cliente/adicionar', methods=['POST', 'GET'])
 @login_required
 def add_cliente():
-    #clientes = Cliente.query.all()
-    # retorna uma lista com todas os clientes
     if request.method == 'POST':
         new_entity = Cliente(
                     nome=request.form['nome_cliente'],
@@ -349,7 +347,7 @@ def adicionar_placas():
                       modelo=request.form['modelo'],
                       qtd_componentes=request.form['qtd_componentes'],
                       id_cliente=request.form['id_cliente'],
-                      
+
                     )
         db.session.add(placa)
         db.session.commit()
