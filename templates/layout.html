@@ -32,25 +32,33 @@
         <li class="nav-item">
           <a class="nav-link" href="/placa">Placas</a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            Cliente
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="nav-link" class="dropdown-item" href="/cliente">Cliente</a>
-            <a class="nav-link" class="dropdown-item" href="/cliente/adicionar">Novo Cliente</a>
-          </div>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/cliente">Clientes</a>
         </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/componente">Componentes</a>
+        </li>
+        <!--href="/cliente/adicionar"-->
       </ul>
+
+      <li class="navbar-nav my-2 my-lg-0 " id="profile_icon">
+        <a class="nav-link" href="/profile">
+          <img src="../static/images/user_profile.png" width="25" height="25" class="stretched-link"
+            alt="Simplac-Brand">
+            {{current_user.nome}}
+        </a>
+      </li>
 
       <li class="navbar-nav my-2 my-lg-0 ">
         <a class="nav-link" href="/logout">
           <img src="../static/images/botao-logout.png" width="25" height="25" class="stretched-link"
             alt="Simplac-Brand">
-          Log Out
+            Sair
         </a>
       </li>
+
     </div>
   </nav>
   {%endif%}
@@ -64,6 +72,7 @@
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
     crossorigin="anonymous"></script>
   <script src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/main.js')}}"></script>
 </body>
 
 </html>
