@@ -36,16 +36,29 @@
         <li class="nav-item">
           <a class="nav-link" href="/cliente">Clientes</a>
         </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/componente">Componentes</a>
+        </li>
         <!--href="/cliente/adicionar"-->
       </ul>
+
+      <li class="navbar-nav my-2 my-lg-0 " id="profile_icon">
+        <a class="nav-link" href="/profile">
+          <img src="../static/images/user_profile.png" width="25" height="25" class="stretched-link"
+            alt="Simplac-Brand">
+            {{current_user.nome}}
+        </a>
+      </li>
 
       <li class="navbar-nav my-2 my-lg-0 ">
         <a class="nav-link" href="/logout">
           <img src="../static/images/botao-logout.png" width="25" height="25" class="stretched-link"
             alt="Simplac-Brand">
-          Log Out
+            Sair
         </a>
       </li>
+
     </div>
   </nav>
   {%endif%}

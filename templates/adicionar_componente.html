@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% block title %}adicionar componente{% endblock %}
+
+{%block head%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/op_add.css')}}">
+{%endblock%}
+
+
+{% block content %}
+
+<div class="container col-md-4 col-md-offset-4">
+    <form method="POST" action="/componente/adicionar">
+        <div class="form-group">
+            <div class="form-group">
+                <label class="col-form-label" required for="codigo">Codigo do componente</label>
+                <input required type="text" name="codigo" class="form-control" id="input_codigo"
+                    placeholder="Codigo">
+            </div>
+
+            <div class="form-group">
+                <label class="col-form-label" required for="nome">Nome do componente</label>
+                <input required type="text" name="nome" class="form-control" id="input_nome"
+                    placeholder="Nome">
+            </div>
+
+            <div class="row">
+                <div class="form-group col">
+                    <label class="col-form-label">Tipo</label>
+                    <select required name="tipo" id="tipo" class="form-control">
+                        <option value="" disabled selected>Selecionar</option>
+                        <option value="">Tipos</option>
+                    </select>
+                </div>
+    
+                <div class="form-group col">
+                    <label class="col-form-label" for="referencia">Referencia</label>
+                    <input name="referencia" type="text" class="form-control" id="input_referencia"
+                        placeholder="Ref.">
+                </div>
+
+            </div>
+
+            <div class="d-flex justify-content-start">
+
+                <input class="btn btn-primary" type="submit" value="Submit">
+
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+    {% block scripts %}
+    <script src="{{ url_for('static', filename='js/op_add.js')}}"></script>
+    {% endblock %}
+{% endblock %}

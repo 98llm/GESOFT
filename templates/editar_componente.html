@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+
+{%block head%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/op_add.css')}}">
+{%endblock%}
+
+
+{% block content %}
+
+<div class="container col-md-4 col-md-offset-4">
+    <form method="POST">
+        <div class="form-group">
+            <div class="form-group">
+                <label class="col-form-label" required for="num_romaneio">Numero do romaneio</label>
+                <input required type="text" name="num_romaneio" class="form-control" id="input_num_romaneio"
+                    value="{{op.num_romaneio}}">
+            </div>
+
+            <div class="form-group">
+                <label class="col-form-label">Cliente</label>
+                <select required readonly name="cliente" id="id_cliente" class="form-control">
+                    <option selected value="{{op.cliente.id}}">{{op.cliente.id}} - {{op.cliente.nome}}</option>
+                </select>
+            </div>
+
+            <div class="row">
+
+                <div class="form-group col">
+                    <label for="id_placa">Modelo da Placa</label>
+                    <select id="id_placa" name="placa" class="form-control">
+                        <option value="{{op.id_placa}}" selected>{{op.placa_op.modelo}}</option>
+                    </select>
+                </div>
+                <div class="form-group col">
+                    <label for="qtd_placas">Quantidade</label>
+                    <input required min="1" name="qtd_placas" step="1" type="number" class="form-control" id="input_qtd"
+                        placeholder="qtd" value="{{op.qtd_placas}}">
+                </div>
+
+            </div>
+
+            <div class="d-flex justify-content-start">
+
+                <input class="btn btn-primary" type="submit" value="Submit">
+
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+    {% block scripts %}
+    <script src="{{ url_for('static', filename='js/op_edit.js')}}"></script>
+    {% endblock %}
+{% endblock %}

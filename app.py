@@ -13,6 +13,7 @@ from flask_login import (
 from werkzeug.security import generate_password_hash, check_password_hash
 from markupsafe import escape   # noqa
 import psycopg2
+import pytz
 from datetime import datetime
 
 # Configure app
@@ -76,7 +77,7 @@ class OP(db.Model):
     qtd_placas = db.Column(db.Integer, nullable=False)
     num_romaneio = db.Column(db.String, nullable=False)
     status = db.Column(db.String(20), nullable=False, default='Em andamento')
-    dta_emissao = db.Column(db.DateTime, nullable=False, default=datetime.utcnow()) # noqa
+    dta_emissao = db.Column(db.DateTime, nullable=False, default=datetime) # noqa
     id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id'))
     id_cliente = db.Column(db.Integer, db.ForeignKey('cliente.id'))
     id_placa = db.Column(db.Integer, db.ForeignKey('placa.id'))
@@ -225,17 +226,72 @@ def op(page_num):
     return render_template('op.html', user=current_user, ops=ops, total=total)
 
 
+@app.route('/componente', methods=['GET', 'POST'], defaults={'page_num': 1})
+@app.route('/componente/<int:page_num>', methods=['GET', 'POST'])
+@login_required
+def componente(page_num):
+    componentes = Componente.query.paginate(per_page=5,
+                                            page=page_num,
+                                            error_out=True)
+    total = componentes.total
+    return render_template('componente.html',
+                           user=current_user,
+                           componentes=componentes,
+                           total=total)
+
+
+@app.route('/componente/adicionar', methods=['POST', 'GET'])
+@login_required
+def add_componente():
+    if request.method == 'POST':
+        componente = Componente(
+                    codigo=request.form['codigo'],
+                    tipo=request.form['tipo'],
+                    nome=request.form['nome'],# noqa
+                    referencia=request.form['referencia'],  # fk
+        )
+        db.session.add(componente)
+        db.session.commit()
+        return redirect(url_for('componente'))
+    return render_template('adicionar_componente.html',
+                           user=current_user)
+
+
+@app.route('/componente/editar/<int:componente>', methods=['POST', 'GET'])
+@login_required
+def edit_componente(componente):
+    op = Componente.query.get(componente)
+    clientes = Cliente.query.all()
+    if request.method == 'POST':
+        op.qtd_placas = request.form['qtd_placas']
+        op.num_romaneio = request.form['num_romaneio']
+        op.id_placa = request.form.get('placa')
+        db.session.commit()
+        return redirect(url_for('componente'))
+    return render_template('editar_componente.html',
+                           user=current_user,
+                           op=op,
+                           clientes=clientes)
+
+
+@app.route('/op/delete/<int:componente>', methods=['POST', 'GET'])
+@login_required
+def delete_componente(componente):
+    componente = Componente.query.get(componente)
+    db.session.delete(componente)
+    db.session.commit()
+    return redirect(url_for('componente'))
+
+
 @app.route('/op/adicionar', methods=['POST', 'GET'])
 @login_required
 def add_op():
     clientes = Cliente.query.all()
-    # retorna uma lista com todas as placas de um determinado cliente
-    # [(cliente.placas) for cliente in Cliente.query.filter_by(id = 1)]
     if request.method == 'POST':
         new_op = OP(
                     qtd_placas=request.form['qtd_placas'],
                     num_romaneio=request.form['num_romaneio'],
-                    dta_emissao=datetime.utcnow(),# noqa
+                    dta_emissao=datetime.now(tz=pytz.UTC),# noqa
                     id_usuario=current_user.id,  # fk
                     id_cliente=request.form.get('cliente'),
                     id_placa=request.form.get('placa'),
@@ -246,6 +302,32 @@ def add_op():
     return render_template('adicionar_op.html',
                            user=current_user,
                            clientes=clientes)
+
+
+@app.route('/op/editar/<int:op>', methods=['POST', 'GET'])
+@login_required
+def edit_op(op):
+    op = OP.query.get(op)
+    clientes = Cliente.query.all()
+    if request.method == 'POST':
+        op.qtd_placas = request.form['qtd_placas']
+        op.num_romaneio = request.form['num_romaneio']
+        op.id_placa = request.form.get('placa')
+        db.session.commit()
+        return redirect(url_for('op'))
+    return render_template('editar_op.html',
+                           user=current_user,
+                           op=op,
+                           clientes=clientes)
+
+
+@app.route('/op/delete/<int:op>', methods=['POST', 'GET'])
+@login_required
+def delete_op(op):
+    op = OP.query.get(op)
+    db.session.delete(op)
+    db.session.commit()
+    return redirect(url_for('op'))
 
 
 @app.route('/placa', methods=['POST', 'GET'])
