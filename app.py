@@ -1,11 +1,11 @@
 from flask import Flask, session, render_template, request, url_for, redirect, jsonify # noqa
-from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_sqlalchemy import SQLAlchemy
 from markupsafe import escape   # noqa
-
-import pytz
-import psycopg2
 from datetime import datetime
+
+import psycopg2
+import pytz
 
 from flask_login import (
     UserMixin,
