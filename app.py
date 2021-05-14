@@ -1,7 +1,8 @@
 from flask import Flask, session, render_template, request, url_for, redirect, jsonify # noqa
-
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
-
+from datetime import datetime
+from markupsafe import escape   # noqa
 from flask_login import (
     UserMixin,
     login_user,
@@ -10,11 +11,9 @@ from flask_login import (
     login_required,
     current_user)
 
-from werkzeug.security import generate_password_hash, check_password_hash
-from markupsafe import escape   # noqa
 import psycopg2
 import pytz
-from datetime import datetime
+
 
 # Configure app
 app = Flask(__name__)
@@ -159,7 +158,8 @@ def load_user(user_id):
 @app.route('/')
 @login_required
 def index():
-    return render_template('home.html', user=current_user)
+    ops_abertas = OP.query.filter_by(status='Em andamento')
+    return render_template('home.html', user=current_user, ops_abertas=ops_abertas)
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -240,6 +240,12 @@ def componente(page_num):
                            total=total)
 
 
+@app.route('/perfil')
+@login_required
+def perfil():
+    return render_template('perfil.html', user=current_user)
+
+
 @app.route('/componente/adicionar', methods=['POST', 'GET'])
 @login_required
 def add_componente():
@@ -312,6 +318,7 @@ def edit_op(op):
     if request.method == 'POST':
         op.qtd_placas = request.form['qtd_placas']
         op.num_romaneio = request.form['num_romaneio']
+        op.status = request.form.get('status')
         op.id_placa = request.form.get('placa')
         db.session.commit()
         return redirect(url_for('op'))
@@ -332,14 +339,14 @@ def delete_op(op):
 
 @app.route('/placa', methods=['POST', 'GET'])
 @login_required
-def consultar_placas():
+def placa():
     placas = Placa.query.all()
     return render_template('placa.html', placas=placas, user=current_user)
 
 
 @app.route('/placa/add', methods=['POST', 'GET'])
 @login_required
-def adicionar_placas():
+def adicionar_placa():
     clientes = Cliente.query.all()
     if request.method == 'POST':
         placa = Placa(
@@ -351,10 +358,39 @@ def adicionar_placas():
                     )
         db.session.add(placa)
         db.session.commit()
-        return redirect(url_for('consultar_placas'))
-    return render_template('adiciona_placa.html',
+        return redirect(url_for('placa'))
+    return render_template('adicionar_placa.html',
                            clientes=clientes,
                            user=current_user)
+
+
+@app.route('/placa/editar/<int:id_placa>', methods=['POST', 'GET'])
+@login_required
+def edit_placa(id_placa):
+    placa = Placa.query.get(id_placa)
+    clientes = Cliente.query.all()
+    if request.method == 'POST':
+        placa.codigo = request.form['codigo'],
+        placa.descricao = request.form['descricao'],
+        placa.modelo = request.form['modelo'],
+        placa.qtd_componentes = request.form['qtd_componentes'],
+        placa.id_cliente = request.form['id_cliente']
+        db.session.add(placa)
+        db.session.commit()
+        return redirect(url_for('placa'))
+    return render_template('editar_placa.html',
+                           placa=placa,
+                           user=current_user,
+                           clientes=clientes)
+
+
+@app.route('/placa/delete/<int:id_placa>', methods=['POST', 'GET'])
+@login_required
+def delete_placa(id_placa):
+    placa = Placa.query.get(id_placa)
+    db.session.delete(placa)
+    db.session.commit()
+    return redirect(url_for('placa'))
 
 
 @app.route('/api/cliente/<int:id_cliente>')

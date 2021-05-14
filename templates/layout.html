@@ -43,21 +43,31 @@
         <!--href="/cliente/adicionar"-->
       </ul>
 
-      <li class="navbar-nav my-2 my-lg-0 " id="profile_icon">
-        <a class="nav-link" href="/profile">
-          <img src="../static/images/user_profile.png" width="25" height="25" class="stretched-link"
-            alt="Simplac-Brand">
-            {{current_user.nome}}
+
+      <ul class="navbar-nav" id="profile_icon">
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="../static/images/user_profile.png" width="30" height="30" class="rounded-circle">
         </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="#">Editar perfil</a>
+          <a class="nav-link" href="/logout">
+            <img src="../static/images/botao-logout.png" width="20" height="20" class="stretched-link"
+              alt="Simplac-Brand">
+              Sair
+          </a>
+        </div>
       </li>
+    </ul>
+
+
+
 
       <li class="navbar-nav my-2 my-lg-0 ">
-        <a class="nav-link" href="/logout">
-          <img src="../static/images/botao-logout.png" width="25" height="25" class="stretched-link"
-            alt="Simplac-Brand">
-            Sair
-        </a>
+
       </li>
+
+
 
     </div>
   </nav>

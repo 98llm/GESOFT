@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}Adiciona Placa{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/placa_add.css')}}">
+{% endblock %}
+
+
+
+{% block content %}
+<div class="container col-xl-3">
+    <form method="POST">
+        <div class="form-group">
+            <label class="col-form-label">Cliente</label>
+            <select required name="id_cliente" id="id_cliente" class="form-control">
+                <option selected value="{{placa.cliente.id}}">{{placa.cliente.id}} - {{placa.cliente.nome}}</option>
+                {% for cliente in clientes%}
+                <option value="{{cliente.id}}">{{cliente.id}} - {{cliente.nome}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="col-form-label" required for="codigo">Codigo</label>
+            <input type="text" name="codigo" class="form-control" placeholder="Codigo" value="{{placa.codigo}}"/>
+        </div>
+
+        <div class="form-group">
+            <label class="col-form-label" required for="modelo">Modelo</label>
+            <input type="text" name="modelo" class="form-control" placeholder="Modelo" value="{{placa.modelo}}"/>
+        </div>
+
+        <div class="form-group">
+            <label class="col-form-label" required for="qtd_componentes">Qtd de componentes</label>
+            <input required min="1" step="1" type="number" name="qtd_componentes" class="form-control"
+                placeholder="Qtd Componentes" value="{{placa.qtd_componentes}}"/>
+        </div>
+
+        <div class="form-group">
+            <label for="Descricao">Descrição</label>
+            <textarea class="form-control" name="descricao" id="text_area_placa" rows="3">{{placa.descricao}}</textarea>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" name="botao_adicionar" class="form-control" placeholder="Adicionar" />
+        </div>
+    </form>
+</div>
+
+{% endblock %}
