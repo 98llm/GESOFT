@@ -1,0 +1,23 @@
+services:
+    web:
+      container_name: flask_app
+      build: .
+      working_dir: /code
+      command: python app.py
+      depends_on:
+        - db
+      ports:
+        - "8080:8080"
+      volumes:
+        - .:/code
+      restart: always
+
+    db:
+      container_name: postgres
+      image: postgres:13
+      env_file: .env
+      volumes:
+        - ./postgres/postgres:/var/lib/postgresql/data
+      ports:
+        - "5432:5432"
+  
