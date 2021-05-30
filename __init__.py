@@ -1,22 +1,6 @@
-from flask import (
-    Flask,
-    session,
-    render_template,
-    request,
-    url_for,
-    redirect,
-    jsonify
-)
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import (
-    UserMixin,
-    login_user,
-    logout_user,
-    LoginManager,
-    login_required,
-    current_user
-)
-from datetime import datetime
+from flask_login import LoginManager
 from config import *
 import psycopg2
 
@@ -29,7 +13,7 @@ login_manager = LoginManager(app)
 login_manager.login_view = "login"
 
 
-# SQLAlchemy 
+# SQLAlchemy
 app.config["SQLALCHEMY_DATABASE_URI"]= DATABASE_CONNECTION_URI
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = b"\x05\x19s\x8a\xd06\x07\xf8ofL0\xc5-\xc0"

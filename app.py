@@ -1,14 +1,38 @@
 import os
-from __init__ import *
+
+from flask.helpers import flash
+from __init__ import app, login_manager
 from models import *
+from datetime import datetime
+from flask import (
+    session,
+    render_template,
+    request,
+    url_for,
+    redirect,
+    jsonify
+)
+from flask_login import (
+    login_user,
+    logout_user,
+    login_required,
+    current_user,
+)
 import pytz
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return Usuario.query.get(user_id)
 
 
 @app.route('/')
 @login_required
 def index():
     ops_abertas = OP.query.filter_by(status='Em andamento')
-    return render_template('home.html', user=current_user, ops_abertas=ops_abertas)
+    return render_template('home.html',
+                           user=current_user,
+                           ops_abertas=ops_abertas)
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -21,6 +45,7 @@ def login():
             login_user(user)
             session['username'] = user.username
             return redirect(url_for('index'))
+        flash("erro")
     return render_template('login.html')
 
 
@@ -60,7 +85,8 @@ def add_cliente():
         db.session.add(new_endereco)
         db.session.commit()
         return redirect(url_for('cliente'))
-    return render_template('adiciona_cliente.html', user=current_user)
+    return render_template('adiciona_cliente.html',
+                           user=current_user)
 
 
 # rota para vizualizacao das OPs| Define pagina 1 como padrao
