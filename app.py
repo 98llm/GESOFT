@@ -28,11 +28,9 @@ def login():
 @login_required
 def cliente():
     clientes = Cliente.query.all()
-    return render_template(
-                            'cliente.html',
-                            user=current_user,
-                            clientes=clientes
-    )
+    return render_template('cliente.html',
+                           user=current_user,
+                           clientes=clientes)
 
 
 @app.route('/cliente/adicionar', methods=['POST', 'GET'])
@@ -40,23 +38,23 @@ def cliente():
 def add_cliente():
     if request.method == 'POST':
         new_entity = Cliente(
-                    nome=request.form['nome_cliente'],
-                    cnpj=request.form['cnpj']
+            nome=request.form['nome_cliente'],
+            cnpj=request.form['cnpj']
         )
         db.session.add(new_entity)
         db.session.commit()
 
         new_telefone = Telefone(
-                    telefone=request.form['telefone'],
-                    id_cliente=new_entity.id  # fk
+            telefone=request.form['telefone'],
+            id_cliente=new_entity.id  # fk
         )
         new_endereco = Endereco_cliente(
-                    logradouro=request.form['logradouro'],
-                    numero=request.form['numero'],
-                    bairro=request.form['bairro'],
-                    cep=request.form['cep'],
-                    uf=request.form['uf'],
-                    id_cliente=new_entity.id  # fk
+            logradouro=request.form['logradouro'],
+            numero=request.form['numero'],
+            bairro=request.form['bairro'],
+            cep=request.form['cep'],
+            uf=request.form['uf'],
+            id_cliente=new_entity.id  # fk
         )
         db.session.add(new_telefone)
         db.session.add(new_endereco)
@@ -100,10 +98,10 @@ def perfil():
 def add_componente():
     if request.method == 'POST':
         componente = Componente(
-                    codigo=request.form['codigo'],
-                    tipo=request.form['tipo'],
-                    nome=request.form['nome'],# noqa
-                    referencia=request.form['referencia'],  # fk
+            codigo=request.form['codigo'],
+            tipo=request.form['tipo'],
+            nome=request.form['nome'],# noqa
+            referencia=request.form['referencia']
         )
         db.session.add(componente)
         db.session.commit()
@@ -144,13 +142,12 @@ def add_op():
     clientes = Cliente.query.all()
     if request.method == 'POST':
         new_op = OP(
-                    qtd_placas=request.form['qtd_placas'],
-                    num_romaneio=request.form['num_romaneio'],
-                    dta_emissao=datetime.now(tz=pytz.UTC),# noqa
-                    id_usuario=current_user.id,  # fk
-                    id_cliente=request.form.get('cliente'),
-                    id_placa=request.form.get('placa'),
-        )
+            qtd_placas=request.form['qtd_placas'],
+            num_romaneio=request.form['num_romaneio'],
+            dta_emissao=datetime.now(tz=pytz.UTC),# noqa
+            id_usuario=current_user.id,  # fk
+            id_cliente=request.form.get('cliente'),
+            id_placa=request.form.get('placa'))
         db.session.add(new_op)
         db.session.commit()
         return redirect(url_for('op'))
@@ -199,13 +196,11 @@ def adicionar_placa():
     clientes = Cliente.query.all()
     if request.method == 'POST':
         placa = Placa(
-                      codigo=request.form['codigo'],
-                      descricao=request.form['descricao'],
-                      modelo=request.form['modelo'],
-                      qtd_componentes=request.form['qtd_componentes'],
-                      id_cliente=request.form['id_cliente'],
-
-                    )
+            codigo=request.form['codigo'],
+            descricao=request.form['descricao'],
+            modelo=request.form['modelo'],
+            qtd_componentes=request.form['qtd_componentes'],
+            id_cliente=request.form['id_cliente'])
         db.session.add(placa)
         db.session.commit()
         return redirect(url_for('placa'))
@@ -219,6 +214,7 @@ def adicionar_placa():
 def edit_placa(id_placa):
     placa = Placa.query.get(id_placa)
     clientes = Cliente.query.all()
+
     if request.method == 'POST':
         placa.codigo = request.form['codigo'],
         placa.descricao = request.form['descricao'],
