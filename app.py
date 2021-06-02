@@ -116,10 +116,10 @@ def componente(page_num):
 @app.route('/perfil')
 @login_required
 def perfil():
-    image_file = url_for('static', filename='images/profile_pics' + current_user.image_file)
+    # image_file = url_for('static', filename='images/profile_pics' + current_user.image_file)
     if request.method == "POST":
         current_user.nome = request.form['nome']
-    return render_template('perfil.html', user=current_user, image_file=image_file)
+    return render_template('perfil.html', user=current_user)
 
 
 @app.route('/componente/adicionar', methods=['POST', 'GET'])
