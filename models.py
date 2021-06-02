@@ -23,6 +23,11 @@ class Usuario(db.Model, UserMixin):
         db.String(50),
         nullable=False
     )
+    img_file = db.Column(
+        db.String(20),
+        nullable=False,
+        default='default.jpg'
+    )
     cargo = db.Column(
         db.String(50),
         nullable=False
@@ -57,7 +62,7 @@ class Anotacao(db.Model, UserMixin):
         autoincrement=True,
         primary_key=True
     )
-    assunto = db.Column(
+    titulo = db.Column(
         db.String(20),
         nullable=False
     )
