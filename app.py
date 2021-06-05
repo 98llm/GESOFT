@@ -2,7 +2,7 @@ import os
 
 from flask.helpers import flash
 from __init__ import app, login_manager
-from models import *
+from models import * # noqa
 from datetime import datetime
 from flask import (
     session,
