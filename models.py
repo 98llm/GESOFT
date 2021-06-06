@@ -148,6 +148,11 @@ class Placa(db.Model):
         backref='relacao_componentes',
         lazy=True
     )
+    ativo = db.Column(
+        db.Integer,
+        nullable=False,
+        default=int(1)
+    )
 
 
 class Componente(db.Model):
@@ -171,7 +176,7 @@ class Componente(db.Model):
     )
     referencia = db.Column(
         db.String,
-        nullable=False
+        nullable=False,
     )
 
 
@@ -211,7 +216,7 @@ class Cliente(db.Model):
         backref='endereco',
         uselist=False
     )
-    telefones = db.relationship(
+    telefone = db.relationship(
         'Telefone',
         backref='cliente',
         lazy=True
@@ -236,7 +241,7 @@ class Telefone(db.Model):
         db.Integer,
         db.ForeignKey('cliente.id')
     )
-    telefone = db.Column(
+    numero = db.Column(
         db.String,
         nullable=False
     )
