@@ -4,6 +4,7 @@ from flask.helpers import flash
 from __init__ import app, login_manager
 from models import * # noqa
 from datetime import datetime
+from flask_cors import cross_origin
 from flask import (
     session,
     render_template,
@@ -287,8 +288,8 @@ def delete_placa(id_placa):
     return redirect(url_for('placa'))
 
 
-@app.route('/api/cliente/<int:id_cliente>')
-@login_required
+@app.route('/api/cliente/<int:id_cliente>', methods=['GET'])
+@cross_origin()
 def api_placas(id_cliente):
     cliente = Cliente.query.get(id_cliente)
     clienteDict = {}
@@ -301,12 +302,13 @@ def api_placas(id_cliente):
     dict
     '''
     for placa in cliente.placas:
-        placas_cliente = {}
-        placas_cliente['id'] = placa.id
-        placas_cliente['codigo'] = placa.codigo
-        placas_cliente['descricao'] = placa.descricao
-        placas_cliente['modelo'] = placa.modelo
-        clienteDict['placas'].append(placas_cliente)
+        if placa.ativo == 1:
+            placas_cliente = {}
+            placas_cliente['id'] = placa.id
+            placas_cliente['codigo'] = placa.codigo
+            placas_cliente['descricao'] = placa.descricao
+            placas_cliente['modelo'] = placa.modelo
+            clienteDict['placas'].append(placas_cliente)
     return jsonify({'cliente': clienteDict})
 
 
