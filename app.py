@@ -1,9 +1,10 @@
 import os
+import re
 
 from flask.helpers import flash
+from werkzeug.wrappers import response
 from __init__ import app, login_manager
 from models import * # noqa
-from datetime import datetime
 from flask_cors import cross_origin
 from flask import (
     session,
@@ -19,7 +20,6 @@ from flask_login import (
     login_required,
     current_user,
 )
-import pytz
 
 
 @login_manager.user_loader
@@ -194,7 +194,6 @@ def add_op():
         new_op = OP(
             qtd_placas=request.form['qtd_placas'],
             num_romaneio=request.form['num_romaneio'],
-            dta_emissao=datetime.now(tz=pytz.UTC),# noqa
             id_usuario=current_user.id,  # fk
             id_cliente=request.form.get('cliente'),
             id_placa=request.form.get('placa'))
@@ -242,7 +241,7 @@ def placa():
 
 @app.route('/placa/add', methods=['POST', 'GET'])
 @login_required
-def adicionar_placa():
+def add_placa():
     clientes = Cliente.query.all()
     if request.method == 'POST':
         placa = Placa(
@@ -309,7 +308,8 @@ def api_placas(id_cliente):
             placas_cliente['descricao'] = placa.descricao
             placas_cliente['modelo'] = placa.modelo
             clienteDict['placas'].append(placas_cliente)
-    return jsonify({'cliente': clienteDict})
+            return jsonify({'cliente': clienteDict})
+    return jsonify()
 
 
 @app.route('/logout')
