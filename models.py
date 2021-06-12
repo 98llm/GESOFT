@@ -2,6 +2,7 @@ from __init__ import db
 from flask_login import UserMixin
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+import pytz
 
 
 class Usuario(db.Model, UserMixin):
@@ -92,10 +93,14 @@ class OP(db.Model):
         nullable=False,
         default='Em andamento'
     )
-    dta_emissao = db.Column(
+    dt_entrega = db.Column(
         db.DateTime,
         nullable=False,
-        default=datetime
+    )
+    dt_emissao = db.Column(
+        db.DateTime,
+        nullable=False,
+        default=datetime.now(tz=pytz.UTC)
     )
     id_usuario = db.Column(
         db.Integer,
