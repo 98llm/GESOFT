@@ -1,7 +1,7 @@
 import os
 
 from flask.helpers import flash
-from werkzeug.wrappers import response
+from werkzeug.wrappers import response # noqa
 from __init__ import app, login_manager
 from models import * # noqa
 from flask_cors import cross_origin
