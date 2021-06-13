@@ -183,6 +183,11 @@ class Componente(db.Model):
         db.String,
         nullable=False,
     )
+    ativo = db.Column(
+        db.Integer,
+        nullable=False,
+        default=int(1)
+    )
 
 
 class Placa_componente(db.Model):
@@ -230,6 +235,11 @@ class Cliente(db.Model):
         'Placa',
         backref='cliente',
         lazy=True
+    )
+    ativo = db.Column(
+        db.Integer,
+        nullable=False,
+        default=int(1)
     )
 
     def __repr__(self):
