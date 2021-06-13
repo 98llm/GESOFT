@@ -2,6 +2,7 @@ from __init__ import db
 from flask_login import UserMixin
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+import pytz
 
 
 class Usuario(db.Model, UserMixin):
@@ -97,10 +98,14 @@ class OP(db.Model):
         nullable=False,
         default='Em andamento'
     )
-    dta_emissao = db.Column(
+    dt_entrega = db.Column(
         db.DateTime,
         nullable=False,
-        default=datetime
+    )
+    dt_emissao = db.Column(
+        db.DateTime,
+        nullable=False,
+        default=datetime.now(tz=pytz.UTC)
     )
     id_usuario = db.Column(
         db.Integer,
@@ -153,6 +158,11 @@ class Placa(db.Model):
         backref='relacao_componentes',
         lazy=True
     )
+    ativo = db.Column(
+        db.Integer,
+        nullable=False,
+        default=int(1)
+    )
 
 
 class Componente(db.Model):
@@ -176,7 +186,7 @@ class Componente(db.Model):
     )
     referencia = db.Column(
         db.String,
-        nullable=False
+        nullable=False,
     )
 
 
@@ -216,7 +226,7 @@ class Cliente(db.Model):
         backref='endereco',
         uselist=False
     )
-    telefones = db.relationship(
+    telefone = db.relationship(
         'Telefone',
         backref='cliente',
         lazy=True
@@ -241,7 +251,7 @@ class Telefone(db.Model):
         db.Integer,
         db.ForeignKey('cliente.id')
     )
-    telefone = db.Column(
+    numero = db.Column(
         db.String,
         nullable=False
     )

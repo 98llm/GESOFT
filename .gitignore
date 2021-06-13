@@ -1,5 +1,10 @@
 venv/
 postgres/
 .vscode/
+<<<<<<< HEAD
 __pychache__
 forms.py
+=======
+__pycache__
+days.py
+>>>>>>> main
