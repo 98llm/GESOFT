@@ -126,9 +126,10 @@ def op(page_num):
 @app.route('/componente/<int:page_num>', methods=['GET', 'POST'])
 @login_required
 def componente(page_num):
-    componentes = Componente.query.paginate(per_page=5,
-                                            page=page_num,
-                                            error_out=True)
+    componentes = Componente.query.filter_by(ativo=1)
+    componentes = componentes.paginate(per_page=5,
+                                       page=page_num,
+                                       error_out=True)
     total = componentes.total
     return render_template('componente.html',
                            user=current_user,
@@ -162,25 +163,24 @@ def add_componente():
 @app.route('/componente/editar/<int:componente>', methods=['POST', 'GET'])
 @login_required
 def edit_componente(componente):
-    op = Componente.query.get(componente)
-    clientes = Cliente.query.all()
+    componente = Componente.query.get(componente)
     if request.method == 'POST':
-        op.qtd_placas = request.form['qtd_placas']
-        op.num_romaneio = request.form['num_romaneio']
-        op.id_placa = request.form.get('placa')
+        componente.codigo = request.form['codigo']
+        componente.nome = request.form['nome']
+        componente.tipo = request.form['tipo_componente']
+        componente.referencia = request.form['referencia']
         db.session.commit()
         return redirect(url_for('componente'))
     return render_template('editar_componente.html',
                            user=current_user,
-                           op=op,
-                           clientes=clientes)
+                           componente=componente)
 
 
-@app.route('/op/delete/<int:componente>', methods=['POST', 'GET'])
+@app.route('/componente/delete/<int:componente>', methods=['POST', 'GET'])
 @login_required
 def delete_componente(componente):
     componente = Componente.query.get(componente)
-    db.session.delete(componente)
+    componente.ativo = 0
     db.session.commit()
     return redirect(url_for('componente'))
 
