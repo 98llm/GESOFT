@@ -37,7 +37,7 @@
                 <td>{{op.status}}</td>
                 <td>{{op.placa_op.modelo}}</td>
                 <td>{{op.qtd_placas}}</td>
-                <td>{{op.dta_emissao.strftime('%d-%m-%Y %H:%M')}}</td>
+                <td>{{op.dt_emissao.strftime('%d/%m/%Y %H:%M')}}</td>
                 <td>
                     <a class="" href="{{ url_for('edit_op', op=op.id)}}"><img width="27px"
                             src="{{ url_for('static', filename='images/edit_icon.png')}}"></a>

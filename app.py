@@ -1,5 +1,4 @@
 import os
-import re
 
 from flask.helpers import flash
 from werkzeug.wrappers import response
@@ -195,6 +194,7 @@ def add_op():
             qtd_placas=request.form['qtd_placas'],
             num_romaneio=request.form['num_romaneio'],
             id_usuario=current_user.id,  # fk
+            dt_entrega=request.form['dt_entrega'],
             id_cliente=request.form.get('cliente'),
             id_placa=request.form.get('placa'))
         db.session.add(new_op)

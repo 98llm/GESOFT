@@ -1,6 +1,6 @@
 ///regra do formulario adicionar op
 var cliente_select = document.getElementById('id_cliente');
-let placa_select = document.getElementById('id_placa');
+var placa_select = document.getElementById('id_placa');
 
 
 cliente_select.onchange = function () {
@@ -28,3 +28,14 @@ cliente_select.onchange = function () {
     });
 
 };
+
+
+$('.datepicker').datepicker({
+    format: "dd/mm/yyyy",
+    clearBtn: true,
+    startDate: "-infinity",
+    language: "pt-BR",
+    orientation: "bottom auto",
+    todayHighlight: true,
+    todayBtn: "linked"
+});

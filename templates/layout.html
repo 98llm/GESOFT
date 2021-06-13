@@ -4,13 +4,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap/bootstrap.min.css')}}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css')}}">
   <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
 
-  <title>{% block title %}{% endblock %} - SIMPLAC</title>
+
   {% block head %}
   {% endblock %}
+
+  <title>{% block title %}{% endblock %} - SIMPLAC</title>
+
 </head>
 
 <body>
@@ -46,19 +51,20 @@
 
       <ul class="navbar-nav" id="profile_icon">
         <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <img src="../static/images/user_profile.png" width="30" height="30" class="rounded-circle">
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="{{ url_for('perfil')}}">Editar perfil</a>
-          <a class="nav-link" href="/logout">
-            <img src="../static/images/botao-logout.png" width="20" height="20" class="stretched-link"
-              alt="Simplac-Brand">
-              Sair
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <img src="../static/images/user_profile.png" width="30" height="30" class="rounded-circle">
           </a>
-        </div>
-      </li>
-    </ul>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="{{ url_for('perfil')}}">Editar perfil</a>
+            <a class="nav-link" href="/logout">
+              <img src="../static/images/botao-logout.png" width="20" height="20" class="stretched-link"
+                alt="Simplac-Brand">
+              Sair
+            </a>
+          </div>
+        </li>
+      </ul>
 
 
 
@@ -76,14 +82,11 @@
   {% block content %}
   {% endblock %}
 
-  {% block scripts %}{% endblock %}
 
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-    crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-  <script src="{{ url_for('static', filename='js/bootstrap/bootstrap.min.js')}}"></script>
-  <script src="{{ url_for('static', filename='js/main.js')}}"></script>
+  <script defer src="{{ url_for('static', filename='js/bootstrap/bootstrap.min.js')}}"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script defer src="{{ url_for('static', filename='js/main.js')}}"></script>
+  {% block scripts %}{% endblock %}
 </body>
 
 </html>

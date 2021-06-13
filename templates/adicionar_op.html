@@ -3,7 +3,7 @@
 
 {%block head%}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/op_add.css')}}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/boostrap/data-picker/bootstrap-datepicker.min.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap/data-picker/bootstrap-datepicker.css')}}">
 {%endblock%}
 
 
@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="form-group col">
                     <label id="label_placa" for="id_placa">Modelo da Placa</label>
-                    
+
                     <select required id="id_placa" name="placa" class="form-control">
                         <option value="" disabled selected>Selecionar</option>
                     </select>
@@ -44,7 +44,12 @@
 
                 <div class="form-group col">
                     <label for="dt_entrega">Data de entrega</label>
-                    <input type="text" class="form-control">
+                    <div class="input-group date datepicker" data-provide="datepicker">
+                        <input type="text" name="dt_entrega" class="form-control">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-th"></span>
+                        </div>
+                    </div>
 
                 </div>
 
@@ -63,6 +68,11 @@
 </div>
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/op_add.js')}}"></script>
+
+<script defer src="{{ url_for('static', filename='js/op_add.js')}}"></script>
+<script defer src="{{ url_for('static', filename='js/bootstrap/data-picker/bootstrap-datepicker.min.js')}}"></script>
+<script defer
+    src="{{ url_for('static', filename='js/bootstrap/data-picker/locales/bootstrap-datepicker.pt-BR.min.js')}}"></script>
+
 {% endblock %}
 {% endblock %}
