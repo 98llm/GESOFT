@@ -149,7 +149,7 @@ def add_componente():
     if request.method == 'POST':
         componente = Componente(
             codigo=request.form['codigo'],
-            tipo=request.form['tipo'],
+            tipo=request.form['tipo_componente'],
             nome=request.form['nome'],# noqa
             referencia=request.form['referencia']
         )
