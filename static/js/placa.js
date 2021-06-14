@@ -1,4 +1,8 @@
-///regra do formulario adicionar op
-var cliente_id = document.getElementById();
-
-console.log(cliente_id)
+$(document).ready(function () {
+    $("#myInput").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+});

@@ -13,6 +13,8 @@
 
     <a type="button" href="{{ url_for('add_componente')}}" class="btn btn-primary">Adicionar Componente</a>
 
+    <input class="form-control" id="myInput" type="text" placeholder="Search..">
+
 </div>
 
 <div class="container ">
@@ -26,7 +28,7 @@
                 <th class="fit">Referencia</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="myTable">
             {% for componente in componentes.items %}
             <tr>
                 <th scope="row">{{componente.id}}</th>
@@ -64,7 +66,10 @@
 
 {% block scripts %}
 
-<script src="{{ url_for('static', filename='js/op.js')}}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+<script src="{{ url_for('static', filename='js/componente.js')}}"></script>
 
 {% endblock %}
 

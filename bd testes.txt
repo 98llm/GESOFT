@@ -1,8 +1,8 @@
 # importa db
-from app import db
+from __init__ import db
 
 # importa os Objetos/tabelas
-from app import Componente, Placa, Placa_componente
+from models import Componente, Placa, Placa_componente
 
 
 # cria db

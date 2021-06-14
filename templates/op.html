@@ -13,6 +13,8 @@
 
     <a type="button" href="{{ url_for('add_op')}}" class="btn btn-primary">Adicionar OP</a>
 
+    <input class="form-control" id="myInput" type="text" placeholder="Search..">
+
 </div>
 
 <div class="container ">
@@ -28,7 +30,7 @@
                 <th scope="col">Criado em</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="myTable">
             {% for op in ops.items %}
             <tr>
                 <th scope="row">{{op.id}}</th>
@@ -67,8 +69,10 @@
 
 {% block scripts %}
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
 <script src="{{ url_for('static', filename='js/op.js')}}"></script>
-
 {% endblock %}
 
 {% endblock %}
