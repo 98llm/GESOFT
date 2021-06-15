@@ -1,4 +1,5 @@
 venv/
 postgres/
 .vscode/
-__pychache__
+__pycache__
+days.py

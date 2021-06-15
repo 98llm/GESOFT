@@ -1,9 +1,10 @@
 import os
 
 from flask.helpers import flash
+from werkzeug.wrappers import response
 from __init__ import app, login_manager
-from models import *
-from datetime import datetime
+from models import * # noqa
+from flask_cors import cross_origin
 from flask import (
     session,
     render_template,
@@ -18,7 +19,6 @@ from flask_login import (
     login_required,
     current_user,
 )
-import pytz
 
 
 @login_manager.user_loader
@@ -70,7 +70,7 @@ def add_cliente():
         db.session.commit()
 
         new_telefone = Telefone(
-            telefone=request.form['telefone'],
+            numero=request.form['telefone'],
             id_cliente=new_entity.id  # fk
         )
         new_endereco = Endereco_cliente(
@@ -87,6 +87,29 @@ def add_cliente():
         return redirect(url_for('cliente'))
     return render_template('adiciona_cliente.html',
                            user=current_user)
+
+
+@app.route('/cliente/editar/<int:id>', methods=['POST', 'GET'])
+@login_required
+def edit_cliente(id):
+    cliente = Cliente.query.get(id)
+    if request.method == 'POST':
+        cliente.nome = request.form['nome_cliente']
+        cliente.cnpj = request.form['cnpj']
+
+        cliente.telefone.numero = request.form['telefone']
+
+        cliente.endereco.logradouro = request.form['logradouro']
+        cliente.endereco.numero = request.form['numero'],
+        cliente.endereco.logradouro = request.form['bairro']
+        cliente.endereco.cep = request.form['cep']
+        cliente.endereco.uf = request.form['uf']
+
+        db.session.commit()
+        return redirect(url_for('cliente'))
+    return render_template('editar_cliente.html',
+                           user=current_user,
+                           cliente=cliente)
 
 
 # rota para vizualizacao das OPs| Define pagina 1 como padrao
@@ -170,8 +193,8 @@ def add_op():
         new_op = OP(
             qtd_placas=request.form['qtd_placas'],
             num_romaneio=request.form['num_romaneio'],
-            dta_emissao=datetime.now(tz=pytz.UTC),# noqa
             id_usuario=current_user.id,  # fk
+            dt_entrega=request.form['dt_entrega'],
             id_cliente=request.form.get('cliente'),
             id_placa=request.form.get('placa'))
         db.session.add(new_op)
@@ -212,13 +235,13 @@ def delete_op(op):
 @app.route('/placa', methods=['POST', 'GET'])
 @login_required
 def placa():
-    placas = Placa.query.all()
+    placas = Placa.query.filter_by(ativo=1)
     return render_template('placa.html', placas=placas, user=current_user)
 
 
 @app.route('/placa/add', methods=['POST', 'GET'])
 @login_required
-def adicionar_placa():
+def add_placa():
     clientes = Cliente.query.all()
     if request.method == 'POST':
         placa = Placa(
@@ -247,7 +270,6 @@ def edit_placa(id_placa):
         placa.modelo = request.form['modelo'],
         placa.qtd_componentes = request.form['qtd_componentes'],
         placa.id_cliente = request.form['id_cliente']
-        db.session.add(placa)
         db.session.commit()
         return redirect(url_for('placa'))
     return render_template('editar_placa.html',
@@ -260,13 +282,13 @@ def edit_placa(id_placa):
 @login_required
 def delete_placa(id_placa):
     placa = Placa.query.get(id_placa)
-    db.session.delete(placa)
+    placa.ativo = 0
     db.session.commit()
     return redirect(url_for('placa'))
 
 
-@app.route('/api/cliente/<int:id_cliente>')
-@login_required
+@app.route('/api/cliente/<int:id_cliente>', methods=['GET'])
+@cross_origin()
 def api_placas(id_cliente):
     cliente = Cliente.query.get(id_cliente)
     clienteDict = {}
@@ -279,13 +301,15 @@ def api_placas(id_cliente):
     dict
     '''
     for placa in cliente.placas:
-        placas_cliente = {}
-        placas_cliente['id'] = placa.id
-        placas_cliente['codigo'] = placa.codigo
-        placas_cliente['descricao'] = placa.descricao
-        placas_cliente['modelo'] = placa.modelo
-        clienteDict['placas'].append(placas_cliente)
-    return jsonify({'cliente': clienteDict})
+        if placa.ativo == 1:
+            placas_cliente = {}
+            placas_cliente['id'] = placa.id
+            placas_cliente['codigo'] = placa.codigo
+            placas_cliente['descricao'] = placa.descricao
+            placas_cliente['modelo'] = placa.modelo
+            clienteDict['placas'].append(placas_cliente)
+            return jsonify({'cliente': clienteDict})
+    return jsonify()
 
 
 @app.route('/logout')
