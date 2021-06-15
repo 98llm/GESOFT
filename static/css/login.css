@@ -82,17 +82,17 @@ input {
   label {
     color: var(--theme-light);
   }
-  input {
-    border-bottom: 1px solid var(--theme-light);
-    color: var(--theme-light);
-    &:focus, &:active {
-      border-color: var(--theme-login);
-      color: var(--theme-login);
-    }
-    &:-webkit-autofill {
-      -webkit-box-shadow: 0 0 0 30px var(--theme-login-background) inset;
-      -webkit-text-fill-color: var(--theme-light);
-    }
+}
+input {
+  border-bottom: 1px solid var(--theme-login-darken);
+  color: var(--theme-light);
+  &:focus, &:active {
+    border-color: var(--theme-login);
+    color: var(--theme-login);
+  }
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px var(--theme-login-background) inset;
+    -webkit-text-fill-color: var(--theme-login-background) !important;
   }
 }
 
