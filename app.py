@@ -53,8 +53,10 @@ def login():
 @app.route('/cliente/<int:page_num>', methods=['GET', 'POST'])
 @login_required
 def cliente(page_num):
-    clientes = Cliente.query.all()
-    clientes = Cliente.query.paginate(per_page=5, page=page_num, error_out=True)
+    clientes = Cliente.query.filter_by(ativo=1)
+    clientes = Cliente.query.paginate(per_page=5,
+                                      page=page_num,
+                                      error_out=True)
     total = clientes.total
     return render_template('cliente.html',
                            user=current_user,
