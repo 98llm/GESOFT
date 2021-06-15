@@ -220,9 +220,10 @@ def delete_componente(componente):
 
 
 @app.route('/op/visualizar/<int:op_id>', methods=['POST', 'GET'])
+@login_required
 def op_visualizar(op_id):
     op = OP.query.get(op_id)
-    return render_template('op_visualizar.html', op=op)
+    return render_template('op_visualizar.html', user=current_user, op=op)
 
 
 @app.route('/op/adicionar', methods=['POST', 'GET'])
