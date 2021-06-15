@@ -30,9 +30,28 @@ def load_user(user_id):
 @login_required
 def index():
     ops_abertas = OP.query.filter_by(status='Em andamento')
+    anotacoes = Anotacao.query.all()
+    if request.method == "POST":
+        anotacao = Anotacao(assunto=request.form['anotacao_assunto'],
+                            descricao=request.form['descricao'],
+                            dt_anotacao=datetime.now(tz=pytz.UTC),
+                            id_usuario=current_user.id)
+        db.session.add(anotacao)
+        db.session.commit()
+        return redirect(url_for('index'))
     return render_template('home.html',
                            user=current_user,
-                           ops_abertas=ops_abertas)
+                           ops_abertas=ops_abertas,
+                           anotacoes=anotacoes)
+
+
+@app.route('/anotacao/delete/<int:id>', methods=['POST', 'GET'])
+@login_required
+def delete_anotacao(id):
+    anotacao = Anotacao.query.get(id)
+    db.session.delete(anotacao)
+    db.session.commit()
+    return redirect(url_for('index'))
 
 
 @app.route('/login', methods=['POST', 'GET'])
