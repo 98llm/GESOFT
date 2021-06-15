@@ -118,6 +118,15 @@ def edit_cliente(id):
                            cliente=cliente)
 
 
+@app.route('/cliente/delete/<int:cliente>', methods=['POST', 'GET'])
+@login_required
+def delete_cliente(cliente):
+    cliente = Cliente.query.get(cliente)
+    cliente.ativo = 0
+    db.session.commit()
+    return redirect(url_for('cliente'))
+
+
 # rota para vizualizacao das OPs| Define pagina 1 como padrao
 @app.route('/op', methods=['GET', 'POST'], defaults={'page_num': 1})
 @app.route('/op/<int:page_num>', methods=['GET', 'POST'])
