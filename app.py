@@ -209,6 +209,7 @@ def add_op():
             qtd_placas=request.form['qtd_placas'],
             num_romaneio=request.form['num_romaneio'],
             id_usuario=current_user.id,  # fk
+            dt_emissao=datetime.now(tz=pytz.UTC),
             dt_entrega=request.form['dt_entrega'],
             id_cliente=request.form.get('cliente'),
             id_placa=request.form.get('placa'))
