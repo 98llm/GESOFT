@@ -19,62 +19,34 @@
 
 <body>
   {%if user%}
-
-  <nav class="shadow-sm rounded navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">
-      <img src="../static/images/brand.png" width="30px" height="30px" class="" alt="Simplac-Brand">
-      GESOFT
-    </a>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-      <ul class="navbar-nav mr-auto">
-
-        <li class="nav-item">
-          <a class="nav-link" href="/op">OPs</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/placa">Placas</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="/cliente">Clientes</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="/componente">Componentes</a>
-        </li>
-        <!--href="/cliente/adicionar"-->
-      </ul>
-
-
-      <ul class="navbar-nav" id="profile_icon">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            <img src="../static/images/user_profile.png" width="30" height="30" class="rounded-circle">
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="{{ url_for('perfil')}}">Editar perfil</a>
-            <a class="nav-link" href="/logout">
-              <img src="../static/images/botao-logout.png" width="20" height="20" class="stretched-link"
-                alt="Simplac-Brand">
-              Sair
-            </a>
-          </div>
-        </li>
-      </ul>
-
-
-
-
-      <li class="navbar-nav my-2 my-lg-0 ">
-
-      </li>
-
-
-
-    </div>
+  <nav class="navbar navbar-dark bg-dark shadow-sm">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarDiv" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="container">
+        <a class="navbar-brand" href="/"><img src="../static/images/brand.png" width="30px" height="30px" class=""
+            alt="Simplac-Brand">GESOFT</a>
+        <div class="collapse navbar-collapse" id="navbarDiv">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/op">OPs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/placa">Placas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/cliente">Clientes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/componente">Componentes</a>
+            </li>
+          </ul>
+        </div>
+      </div>
   </nav>
   {%endif%}
 
