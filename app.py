@@ -49,13 +49,19 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/cliente', methods=['GET'])
+@app.route('/cliente', methods=['GET', 'POST'], defaults={'page_num': 1})
+@app.route('/cliente/<int:page_num>', methods=['GET', 'POST'])
 @login_required
-def cliente():
-    clientes = Cliente.query.all()
+def cliente(page_num):
+    clientes = Cliente.query.filter_by(ativo=1)
+    clientes = Cliente.query.paginate(per_page=5,
+                                      page=page_num,
+                                      error_out=True)
+    total = clientes.total
     return render_template('cliente.html',
                            user=current_user,
-                           clientes=clientes)
+                           clientes=clientes,
+                           total=total)
 
 
 @app.route('/cliente/adicionar', methods=['POST', 'GET'])
@@ -110,6 +116,15 @@ def edit_cliente(id):
     return render_template('editar_cliente.html',
                            user=current_user,
                            cliente=cliente)
+
+
+@app.route('/cliente/delete/<int:cliente>', methods=['POST', 'GET'])
+@login_required
+def delete_cliente(cliente):
+    cliente = Cliente.query.get(cliente)
+    cliente.ativo = 0
+    db.session.commit()
+    return redirect(url_for('cliente'))
 
 
 # rota para vizualizacao das OPs| Define pagina 1 como padrao

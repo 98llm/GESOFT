@@ -23,31 +23,42 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Nome</th>
+                <th scope="col">CNPJ</th>
                 <th scope="col">Telefone</th>
-                <th scope="col">Cliente</th>
-                <th class="fit" scope="col"><abbr title="Quantidade de Componentes">Qtd</abbr></th>
+                <th class="fit" scope="col">Ações</abbr></th>
             </tr>
         </thead>
         <tbody id="myTable">
-            {% for cliente in clientes %}
+            {% for cliente in clientes.items %}
             <tr>
                 <th scope="row">{{cliente.id}}</th>
-                <th>{{cliente.nome}}</th>
+                <td>{{cliente.nome}}</td>
+                <td>{{cliente.cnpj}}</td>
                 <td>{{cliente.telefone[0].numero}}</td>
-                <!-- 
-                    {#
+
                 <td>
-                    <a class="" href="{{ url_for('edit_placa', id_placa=placa.id)}}"><img width="27px"
+                    <a class="" href="{{ url_for('edit_cliente', id=cliente.id)}}"><img width="27px"
                             src="{{ url_for('static', filename='images/edit_icon.png')}}"></a>
     
-                    <a href="{{ url_for('delete_placa', id_placa=placa.id)}}"><img width="27px"
+                    <a href="{{ url_for('delete_cliente', cliente=cliente.id)}}"><img width="27px"
                             src="{{ url_for('static', filename='images/delete_icon.png')}}"></a>
-                </td>#}
-                -->
+                </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+
+    <ul class="pagination">
+        {% for page in clientes.iter_pages(left_edge=3, right_edge=3) %}
+        {% if page %}
+         <li class="page-item">
+             <a class="page-link" href="{{ url_for('cliente', page_num=page) }}">{{ page }}</a>
+        </li>
+
+        {% else %}
+         <li class="page-item disabled" id="example_ellipsis"><a href="#" class="page-link">…</a></li> 
+        {% endif %}
+        {% endfor %}
 </div>
 
 {% block scripts %}
@@ -59,4 +70,4 @@
 
 {% endblock %}
 
-{% endblock %}
+{% endblock content%}
