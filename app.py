@@ -286,6 +286,9 @@ def placa():
 def add_placa():
     clientes = Cliente.query.all()
     if request.method == 'POST':
+        # componentes = request.form.getlist('componente')
+        # qtd_componentes = request.form.getlist('qtd_componentes')
+
         placa = Placa(
             codigo=request.form['codigo'],
             descricao=request.form['descricao'],
@@ -293,8 +296,13 @@ def add_placa():
             qtd_componentes=request.form['qtd_componentes'],
             id_cliente=request.form['id_cliente'])
         db.session.add(placa)
-        db.session.commit()
-        return redirect(url_for('placa'))
+        try:
+            db.session.commit()
+            flash("Placa adicionada", "Sucesso")
+            return redirect(url_for('placa'))
+        except Exception:
+            db.session.rollback()
+            flash("esta placa ja existe", "error")
     return render_template('adicionar_placa.html',
                            clientes=clientes,
                            user=current_user)

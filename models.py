@@ -188,6 +188,11 @@ class Componente(db.Model):
         nullable=False,
         default=int(1)
     )
+    placas = db.relationship(
+        'Placa_componente',
+        backref='componentes',
+        lazy=True
+    )
 
 
 class Placa_componente(db.Model):
@@ -200,6 +205,11 @@ class Placa_componente(db.Model):
         db.Integer,
         db.ForeignKey('componente.id'),
         primary_key=True
+    )
+    qtd_componente = db.Column(
+        db.Integer,
+        nullable=False,
+        default=int(1)
     )
 
 
