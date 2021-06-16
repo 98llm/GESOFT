@@ -93,6 +93,11 @@ class OP(db.Model):
         nullable=False,
         default='Em andamento'
     )
+    valor = db.Column(
+        db.Float(),
+        nullable=False,
+        default=0
+    )
     dt_entrega = db.Column(
         db.DateTime,
         nullable=False,
