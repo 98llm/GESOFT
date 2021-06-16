@@ -4,4 +4,20 @@ body{
 
 #profile_icon{
     margin-right: 2em;
+    top: 0.5rem;
 }
+
+.navbar-toggler .icon-bar {
+    margin: 7px;
+    display: block;
+    width: 14px;
+    height: 0.2px;
+    background-color: #cccccc;
+    border-radius: 1px;
+  }
+
+.navbar-brand{
+    position: absolute;
+    top: 0.7rem;
+    left: 5rem;
+  }
