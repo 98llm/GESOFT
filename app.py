@@ -337,13 +337,11 @@ def delete_placa(id_placa):
     return redirect(url_for('placa'))
 
 
-@app.route('/relatorios/', methods=['POST', 'GET'])
+@app.route('/dashboards/', methods=['POST', 'GET'])
 @login_required
 def relatorios():
     ops = OP.query.all()
-    placa.ativo = 0
-    db.session.commit()
-    return render_template('editar_placa.html',
+    return render_template('relatorios.html',
                            user=current_user,
                            ops=ops)
 
