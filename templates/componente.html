@@ -7,6 +7,17 @@
 
 
 {% block content %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-success">
+    <strong>Successo!</strong> {{message}}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
 <div class="container ">
     <div class="placas-container">
         <h1 id="info" class="shadow-lg p-3 mb-5 rounded">Componentes</h1>

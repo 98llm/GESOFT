@@ -22,7 +22,6 @@ $(document).ready(function () {
  
  for(var i=0; i<rowLength; i+=1){
    var row = table.rows[i];
-   console.log(row)
    //your code goes here, looping over every row.
    //cells are accessed as easy
  

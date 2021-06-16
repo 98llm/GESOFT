@@ -129,9 +129,13 @@ def edit_cliente(id):
         cliente.endereco.logradouro = request.form['bairro']
         cliente.endereco.cep = request.form['cep']
         cliente.endereco.uf = request.form['uf']
-
-        db.session.commit()
-        return redirect(url_for('cliente'))
+        try:
+            db.session.commit()
+            flash('Cadastro atualizado', "Sucess")
+            return redirect(url_for('cliente'))
+        except Exception:
+            db.session.rollback()
+            flash('Atualização invalida', "Error")
     return render_template('editar_cliente.html',
                            user=current_user,
                            cliente=cliente)
@@ -188,8 +192,13 @@ def add_componente():
             referencia=request.form['referencia']
         )
         db.session.add(componente)
-        db.session.commit()
-        return redirect(url_for('componente'))
+        try:
+            db.session.commit()
+            flash("Componente adicionado", "Sucesso")
+            return redirect(url_for('componente'))
+        except Exception:
+            db.session.rollback()
+            flash("este componente ja existe", "error")
     return render_template('adicionar_componente.html',
                            user=current_user)
 
@@ -234,6 +243,7 @@ def add_op():
         new_op = OP(
             qtd_placas=request.form['qtd_placas'],
             num_romaneio=request.form['num_romaneio'],
+            valor=request.form['valor'],
             id_usuario=current_user.id,  # fk
             dt_emissao=datetime.now(tz=pytz.UTC),
             dt_entrega=request.form['dt_entrega'],
@@ -339,9 +349,9 @@ def delete_placa(id_placa):
 
 @app.route('/dashboards/', methods=['POST', 'GET'])
 @login_required
-def relatorios():
+def dashboards():
     ops = OP.query.all()
-    return render_template('relatorios.html',
+    return render_template('dashboards.html',
                            user=current_user,
                            ops=ops)
 

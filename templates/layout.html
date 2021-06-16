@@ -10,10 +10,10 @@
   <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
 
   <!-- Scripts-->
-  <script defer src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <script defer src="{{ url_for('static', filename='js/bootstrap/bootstrap.min.js')}}"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap/bootstrap.min.js')}}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 
   {% block head %}
   {% endblock %}
@@ -41,7 +41,7 @@
           <a class="nav-link" href="/componente">Componentes</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/relatorios">Relatorios</a>
+          <a class="nav-link" href="/dashboards">Dashboards</a>
         </li>
       </ul>
     </div>
