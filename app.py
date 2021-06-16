@@ -239,6 +239,8 @@ def placa():
     return render_template('placa.html', placas=placas, user=current_user)
 
 
+
+
 @app.route('/placa/add', methods=['POST', 'GET'])
 @login_required
 def add_placa():
