@@ -4,9 +4,7 @@ $(document).ready(function() {
             // Limpa valores do formulário de cep.
             $("#rua").val("");
             $("#input_bairro").val("");
-            $("#cidade").val("");
             $("#uf").val("");
-            $("#ibge").val("");
         }
         
         //Quando o campo cep perde o foco.

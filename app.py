@@ -129,9 +129,13 @@ def edit_cliente(id):
         cliente.endereco.logradouro = request.form['bairro']
         cliente.endereco.cep = request.form['cep']
         cliente.endereco.uf = request.form['uf']
-
-        db.session.commit()
-        return redirect(url_for('cliente'))
+        try:
+            db.session.commit()
+            flash('Cadastro atualizado', "Sucess")
+            return redirect(url_for('cliente'))
+        except Exception:
+            db.session.rollback()
+            flash('Atualização invalida', "Error")
     return render_template('editar_cliente.html',
                            user=current_user,
                            cliente=cliente)
