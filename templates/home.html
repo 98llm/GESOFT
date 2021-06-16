@@ -10,10 +10,11 @@
 
 <div class="container">
 
-<div class="container">
-  <form action="">
-    
-  </form>
+<div class="lista-container">
+    <h1 id="info" class="shadow-lg p-3 mb-5 rounded">Lista de OPs ativas</h1>
+
+    <input class="form-control" id="myInput" type="text" placeholder="Search..">
+
 </div>
 
   <div class="d-flex justify-content-center">
@@ -23,7 +24,7 @@
           <th class="th-sm" scope="col">Código</th>
           <th scope="col">N.Romaneio</th>
           <th scope="col">Cliente</th>
-          <th scope="col">OP Status</th>
+          <th scope="col">Status</th>
           <th class="fit">Placa</th>
           <th class="fit" scope="col"><abbr title="Quantidade de Componentes">Qtd</abbr></th>
           <th scope="col">Criado em</th>
@@ -31,11 +32,11 @@
       </thead>
       <tbody>
         {% for op in ops_abertas %}
-        <tr>
+        <tr style="cursor: pointer;">
           <th scope="row">{{op.id}}</th>
           <td>{{op.num_romaneio}}</td>
           <td>{{op.cliente.nome}}</td>
-          <td>{{op.status}}</td>
+          <td id="status">{{op.status}}</td>
           <td>{{op.placa_op.modelo}}</td>
           <td>{{op.qtd_placas}}</td>
           <td>{{op.dt_emissao.strftime('%d/%m/%Y %H:%M')}}</td>
