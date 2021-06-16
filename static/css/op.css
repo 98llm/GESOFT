@@ -1,10 +1,5 @@
-.placas-container {
-    background-color: #0062cc;
-    padding: 2%;
-}
-
-#info{
-    color: aliceblue;
+.form-control{
+    width: 270px;
 }
 
 .fi_button{

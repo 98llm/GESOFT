@@ -12,8 +12,8 @@
 <div class="container">
 
 <div class="lista-container">
-    <h1 id="info" class="shadow-lg p-3 mb-3 rounded">Lista de OPs ativas</h1>
-    <input class="form-control" id="myInput" type="text" placeholder="Romaneio">
+    <h1 id="info" class="shadow-lg p-3 mb-3 rounded">OPs ativas</h1>
+    <input class="form-control" id="myInput" type="text" placeholder="Insira o código de romaneio">
 
 </div>
 
@@ -32,7 +32,7 @@
       </thead>
       <tbody id="myTable">
         {% for op in ops_abertas %}
-        <tr style="cursor: pointer;">
+        <tr>
           <th scope="row">
             <a class="" href="{{ url_for('op_visualizar', op_id=op.id)}}">
               {{op.id}}
