@@ -6,5 +6,3 @@ for (let i = 0; i < menuLength; i++) {
     menuItem[i].classList.add("active")
   }
 };
-
-$('#meuModal').modal('handleUpdate')
