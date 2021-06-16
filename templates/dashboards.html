@@ -15,7 +15,7 @@
 
 
 <div class="lista-container">
-    <h1 id="info" class="shadow-lg p-3 mb-3 rounded">Lista de OPs ativas</h1>
+    <h1 id="info" class="shadow-lg p-3 mb-3 rounded text-center">Dashboards</h1>
 </div>
 <div class="container">
     <canvas id="myChart"></canvas>
@@ -26,14 +26,17 @@
 
 <script>
 
+
     var data_lista = []
     var valor_lista = []
     var sum = 0
+    var teste = 0
+
 
     '{% for op in ops %}'
-
     var valor = '{{ op.valor }}'
-    var data = '{{ op.dt_entrega.strftime("%m") }}'
+    var data = '{{ op.dt_entrega.strftime("%m/%Y") }}'
+
 
     data_lista.push(data)
     valor_lista.push(valor)
@@ -42,7 +45,7 @@
 
     '{% endfor %}'
 
-
+console.log(data_lista)
 
     const labels = [
         'Janeiro',
@@ -64,7 +67,7 @@
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: labels,
+            labels: data_lista,
             datasets: [{
                 label: "Ordem de produção",
                 data: valor_lista,
@@ -92,7 +95,13 @@
                 y: {
                     beginAtZero: true
                 }
-            }
+            },
+            plugins: {
+                title: {
+                  display: true,
+                  text: 'Resumo de faturamento mensal',
+                }
+              }
         }
     });
 

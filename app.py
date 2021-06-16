@@ -295,6 +295,7 @@ def placa():
 @login_required
 def add_placa():
     clientes = Cliente.query.all()
+    componentes = Componente.query.filter_by(ativo=1)
     if request.method == 'POST':
         # componentes = request.form.getlist('componente')
         # qtd_componentes = request.form.getlist('qtd_componentes')
@@ -315,7 +316,8 @@ def add_placa():
             flash("esta placa ja existe", "error")
     return render_template('adicionar_placa.html',
                            clientes=clientes,
-                           user=current_user)
+                           user=current_user,
+                           componentes=componentes)
 
 
 @app.route('/placa/editar/<int:id_placa>', methods=['POST', 'GET'])
