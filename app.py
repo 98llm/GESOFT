@@ -329,6 +329,17 @@ def delete_placa(id_placa):
     return redirect(url_for('placa'))
 
 
+@app.route('/relatorios/', methods=['POST', 'GET'])
+@login_required
+def relatorios():
+    ops = OP.query.all()
+    placa.ativo = 0
+    db.session.commit()
+    return render_template('editar_placa.html',
+                           user=current_user,
+                           ops=ops)
+
+
 @app.route('/api/cliente/<int:id_cliente>', methods=['GET'])
 @cross_origin()
 def api_placas(id_cliente):
