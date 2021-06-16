@@ -13,7 +13,7 @@
 
 <div class="lista-container">
     <h1 id="info" class="shadow-lg p-3 mb-3 rounded">Lista de OPs ativas</h1>
-    <input class="form-control" id="myInput" type="text" placeholder="Romaneio">
+    <input class="form-control" id="myInput" type="text" placeholder="Busca">
 
 </div>
 
@@ -34,7 +34,7 @@
         {% for op in ops_abertas %}
         <tr style="cursor: pointer;">
           <th scope="row">
-            <a class="" href="{{ url_for('op_visualizar', op_id=op.id)}}">
+            <a href="{{ url_for('op_visualizar', op_id=op.id)}}">
               {{op.id}}
             </a>
           </th>
@@ -43,7 +43,7 @@
           <td id="status">{{op.status}}</td>
           <td>{{op.placa_op.modelo}}</td>
           <td>{{op.qtd_placas}}</td>
-          <td>{{op.dt_emissao.strftime('%d/%m/%Y %H:%M')}}</td>
+          <td>{{op.dt_entrega.strftime('%d/%m/%Y')}}</td>
           <td>
             <a class="" href="{{ url_for('edit_op', op=op.id)}}"><img width="27px"
                 src="{{ url_for('static', filename='images/edit_icon.png')}}"></a>
