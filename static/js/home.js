@@ -1,9 +1,10 @@
-var status = document.getElementById('status')
+$(document).ready(function () {
+    $("#myInput").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+});
 
-if (status === 'Em andamento'){
-    style="color:orange;"
-}
-
-função divColorChange(){ 
-    document.getElementById('status')style.color = ' # FF0000 ';
-}
+console.log("teste")

@@ -3,6 +3,8 @@
 
 {%block head%}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/op.css')}}">
+<script defer src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+<script defer src="{{ url_for('static', filename='js/op.js')}}"></script>
 {%endblock%}
 
 
@@ -67,8 +69,6 @@
 
 {% block scripts %}
 
-<script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
-<script src="{{ url_for('static', filename='js/op.js')}}"></script>
 {% endblock %}
 
 {% endblock %}

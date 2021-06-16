@@ -3,6 +3,7 @@
 
 {%block head%}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css')}}">
+<script defer src="{{ url_for('static', filename='js/home.js')}}"></script>
 {%endblock%}
 
 
@@ -11,9 +12,8 @@
 <div class="container">
 
 <div class="lista-container">
-    <h1 id="info" class="shadow-lg p-3 mb-5 rounded">Lista de OPs ativas</h1>
-
-    <input class="form-control" id="myInput" type="text" placeholder="Search..">
+    <h1 id="info" class="shadow-lg p-3 mb-3 rounded">Lista de OPs ativas</h1>
+    <input class="form-control" id="myInput" type="text" placeholder="Romaneio">
 
 </div>
 
@@ -30,7 +30,7 @@
           <th scope="col">Criado em</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="myTable">
         {% for op in ops_abertas %}
         <tr style="cursor: pointer;">
           <th scope="row">
