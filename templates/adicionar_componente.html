@@ -8,6 +8,16 @@
 
 {% block content %}
 
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-success">
+    <strong>Erro!</strong> {{message}}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
 <div class="container col-md-4 col-md-offset-4">
     <form method="POST" action="/componente/adicionar">
         <div class="form-group">
@@ -28,7 +38,9 @@
                     <label class="col-form-label">Tipo</label>
                     <select required name="tipo_componente" id="tipo_componente" class="form-control">
                         <option disabled selected>Selecionar</option>
-                        <option value="Tipo">Tipos</option>
+                        <option>resistor</option>
+                        <option>capacitor</option>
+                        <option>led</option>
                     </select>
                 </div>
     

@@ -188,8 +188,13 @@ def add_componente():
             referencia=request.form['referencia']
         )
         db.session.add(componente)
-        db.session.commit()
-        return redirect(url_for('componente'))
+        try:
+            db.session.commit()
+            flash("Componente adicionado", "Sucesso")
+            return redirect(url_for('componente'))
+        except Exception:
+            db.session.rollback()
+            flash("este componente ja existe", "error")
     return render_template('adicionar_componente.html',
                            user=current_user)
 
