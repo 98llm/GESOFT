@@ -8,6 +8,16 @@
 
 {% block content %}
 
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-success">
+    <strong>Successo!</strong> OP adicionada.
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
 <div class="placas-container">
     <h1 id="info" class="shadow-lg p-3 mb-5 rounded">Ordens de produção</h1>
 
@@ -53,15 +63,15 @@
     </table>
     <ul class="pagination">
 
-          
+
         {% for page in ops.iter_pages(left_edge=3, right_edge=3) %}
         {% if page %}
-         <li class="page-item">
-             <a class="page-link" href="{{ url_for('op', page_num=page) }}">{{ page }}</a>
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('op', page_num=page) }}">{{ page }}</a>
         </li>
 
         {% else %}
-         <li class="page-item disabled" id="example_ellipsis"><a href="#" class="page-link">…</a></li> 
+        <li class="page-item disabled" id="example_ellipsis"><a href="#" class="page-link">…</a></li>
         {% endif %}
         {% endfor %}
 

@@ -1,9 +1,8 @@
 function duplicarCampos(){
 	var clone = document.getElementById('origem').cloneNode(true);
 	var destino = document.getElementById('destino');
-	var limpar = destino.appendChild(clone);
-	limpar.value = ''
-	var camposClonados = clone.getElementTagValue('input');
+	destino.appendChild(clone);
+
 	
 	// for(i=0; i<camposClonados.length;i++){
 	// 	camposClonados[i].value = "";
@@ -11,8 +10,10 @@ function duplicarCampos(){
 }
 
 function removerCampos(id){
+	var teste = document.getElementsByClassName('clone')
 	var node1 = document.getElementById('destino');
-	node1.removeChild(node1.childNodes[0]);
+	tamanho = teste.length
+	node1.removeChild(node1.childNodes[tamanho]);
 }
 
   function clearInputUrlNumberText(name) {
