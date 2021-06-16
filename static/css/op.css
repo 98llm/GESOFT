@@ -18,12 +18,3 @@
     background-color: #dc3545;
     border-color: #dc3545;
 }
-
-.navbar-toggler .icon-bar {
-    margin: 7px;
-    display: block;
-    width: 14px;
-    height: 0.2px;
-    background-color: #cccccc;
-    border-radius: 1px;
-  }
