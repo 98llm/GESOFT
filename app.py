@@ -234,6 +234,7 @@ def add_op():
         new_op = OP(
             qtd_placas=request.form['qtd_placas'],
             num_romaneio=request.form['num_romaneio'],
+            valor=request.form['valor'],
             id_usuario=current_user.id,  # fk
             dt_emissao=datetime.now(tz=pytz.UTC),
             dt_entrega=request.form['dt_entrega'],
@@ -339,9 +340,9 @@ def delete_placa(id_placa):
 
 @app.route('/dashboards/', methods=['POST', 'GET'])
 @login_required
-def relatorios():
+def dashboards():
     ops = OP.query.all()
-    return render_template('relatorios.html',
+    return render_template('dashboards.html',
                            user=current_user,
                            ops=ops)
 
