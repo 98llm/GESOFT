@@ -212,8 +212,13 @@ def edit_componente(componente):
         componente.nome = request.form['nome']
         componente.tipo = request.form['tipo_componente']
         componente.referencia = request.form['referencia']
-        db.session.commit()
-        return redirect(url_for('componente'))
+        try:
+            db.session.commit()
+            flash("Componente atualizado", "Sucesso")
+            return redirect(url_for('componente'))
+        except Exception:
+            db.session.rollback()
+            flash("este componente ja existe", "error")
     return render_template('editar_componente.html',
                            user=current_user,
                            componente=componente)

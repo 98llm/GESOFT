@@ -3,7 +3,7 @@ from __init__ import db
 
 # importa os Objetos/tabelas
 from models import Componente, Placa, Placa_componente
-
+from models import Usuario
 
 # cria db
 db.create_all()
@@ -43,7 +43,7 @@ placa_componente1= Placa_componente(id_placa=placa1.id, id_componente=componente
 placa_componente2= Placa_componente(id_placa=placa1.id, id_componente=componente2.id)
 placa_componente3= Placa_componente(id_placa=placa2.id, id_componente=componente2.id)
 
-db.session.add(placa_componente1)
+db.session.add(usuario)
 db.session.add(placa_componente2)
 
 # comita as alterações adicionadas anteriormente ao bd

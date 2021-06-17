@@ -27,11 +27,13 @@
                 <div class="form-group col">
                     <label class="col-form-label">Tipo</label>
                     <select required name="tipo_componente" id="tipo_componente" class="form-control">
-                        <option disabled selected>{{componente.tipo}}</option>
-                        <option value="resistor">resistor</option>
+                        <option selected>{{componente.tipo}}</option>
+                        <option>resistor</option>
+                        <option>capacitor</option>
+                        <option>led</option>
                     </select>
                 </div>
-    
+
                 <div class="form-group col">
                     <label class="col-form-label" for="referencia">Referencia</label>
                     <input name="referencia" type="text" class="form-control" id="input_referencia"
